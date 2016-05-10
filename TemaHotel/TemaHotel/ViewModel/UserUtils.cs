@@ -5,17 +5,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TemaHotel.DataAccess;
 using TemaHotel.Model;
 
 namespace TemaHotel.ViewModel
 {
     public class UserUtils : INotifyPropertyChanged
     {
+        private SignUp currentSign;
         User newUser = new User();
         public event PropertyChangedEventHandler PropertyChanged;
+        public string username;
+        public string name;
         private string email;
-        private string password;
+        private String password;
         private string confirmPassword;
+
+        public UserUtils() { }
+
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                username = value;
+                OnPropertyChanged("Username");
+            }
+
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+
+        }
 
         public string Email 
         {
@@ -57,21 +85,48 @@ namespace TemaHotel.ViewModel
 
         public void NewUser(object param)
         {
-            SignUp create = new SignUp();
-            create.Show();
+            currentSign = new SignUp();
+            currentSign.Show();
         }
 
         public void CreateUserAccount(object param)
         {
+            if (Password.Equals(ConfirmPassword))
+            {
+                if (Password != null && Username != null && Name != null && Email != null)
+                {
+                    User us = new User();
+                    us.Username = Username;
+                    us.Name = Name;
+                    us.Email = Email;
+                    us.Password = Password;
+                    UserServiceLayer userDb = new UserServiceLayer();
+                    userDb.AddUser(us);
+                    MessageBox.Show("Account created please login");
+                    currentSign.Close();
+                    Password = null;
+                    Username = null;
+                    Email = null;
 
-            MessageBox.Show("Account created please login");
+                }
+                else
+                {
+                    MessageBox.Show("You must complete all fields");
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("");
+
+            }
         }
 
         public void Login(object param)
         {
-            User us = new User();
-            MessageBox.Show("You have succesfully logged on");
+           
         }
+
 
         private void OnPropertyChanged(string property)
         {

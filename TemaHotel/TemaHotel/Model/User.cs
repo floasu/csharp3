@@ -12,26 +12,29 @@ namespace TemaHotel.Model
         public String Username { get; set; }
         public String Name { get; set; }
         public String Email { get; set; }
+        public String Password { get; set; }
         public String UserType { get; set; }
         public bool Active { get; set; }
 
 
         public User() {}
-        public User(string username, string name, string email, string usertp)
+        public User(string username, string name, string email, string pass, string usertp)
         {
             this.Username = username;
             this.Name = name;
             this.Email = email;
+            this.Password = pass;
             this.UserType = usertp;
             this.Active = true;
 
         }
 
-        public User(string username, string name, string email)
+        public User(string username, string name, string email, string pass)
         {
             this.Username = username;
             this.Name = name;
             this.Email = email;
+            this.Password = pass;
             this.UserType = (String)Enum.Parse(typeof(UserType), "Client"); 
             this.Active = true;
 
