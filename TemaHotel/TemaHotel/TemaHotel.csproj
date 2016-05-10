@@ -129,9 +129,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\testroon.jpg" />
+    <Resource Include="Resources\signupback.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\testroom.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
