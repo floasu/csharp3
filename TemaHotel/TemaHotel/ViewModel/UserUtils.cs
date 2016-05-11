@@ -91,8 +91,12 @@ namespace TemaHotel.ViewModel
 
         public void CreateUserAccount(object param)
         {
+            UserUtils ust = param as UserUtils;
+            Password = ust.Password;
+            ConfirmPassword = ust.ConfirmPassword;
             if (Password.Equals(ConfirmPassword))
             {
+
                 if (Password != null && Username != null && Name != null && Email != null)
                 {
                     User us = new User();
@@ -117,7 +121,7 @@ namespace TemaHotel.ViewModel
             }
             else
             {
-                MessageBox.Show("");
+                MessageBox.Show("Password not mactch");
 
             }
         }

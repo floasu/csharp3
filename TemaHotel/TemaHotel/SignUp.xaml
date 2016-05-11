@@ -20,8 +20,8 @@
                    Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CreateUserCommand}" >
                 <Button.CommandParameter>
             <MultiBinding Converter="{StaticResource userConvert}">
-                <Binding ElementName="txtName" Path="Text"/>
-                <Binding ElementName="txtUsername" Path="Text"/>
+                    <Binding ElementName="txtPassword" Path="Text" Mode="TwoWay"/>
+                    <Binding ElementName="txtCnfPass" Path="Text"/>
             </MultiBinding>
             </Button.CommandParameter >
         </Button>
