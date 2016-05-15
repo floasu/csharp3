@@ -12,11 +12,10 @@ namespace TemaHotel.ViewModel
 {
     public class UserUtils : INotifyPropertyChanged
     {
-        private SignUp currentSign;
         User newUser = new User();
         public event PropertyChangedEventHandler PropertyChanged;
-        public string username;
-        public string name;
+        private string username;
+        private string name;
         private string email;
         private String password;
         private string confirmPassword;
@@ -85,50 +84,49 @@ namespace TemaHotel.ViewModel
 
         public void NewUser(object param)
         {
-            currentSign = new SignUp();
+            SignUp currentSign = new SignUp();
             currentSign.Show();
         }
 
         public void CreateUserAccount(object param)
         {
-            UserUtils ust = param as UserUtils;
-            Password = ust.Password;
-            ConfirmPassword = ust.ConfirmPassword;
-            if (Password.Equals(ConfirmPassword))
+            UserUtils newUser = param as UserUtils;
+            if (newUser.Password.Equals(newUser.ConfirmPassword) && newUser.Password.Equals("") ==false)
             {
-
-                if (Password != null && Username != null && Name != null && Email != null)
+                if (newUser.Username.Equals("") == false && newUser.Name.Equals("") == false && newUser.Email.Equals("") == false)
                 {
-                    User us = new User();
-                    us.Username = Username;
-                    us.Name = Name;
-                    us.Email = Email;
-                    us.Password = Password;
-                    UserServiceLayer userDb = new UserServiceLayer();
-                    userDb.AddUser(us);
+                    UserServiceLayer userSv = new UserServiceLayer();
+                    userSv.AddUser(new User(newUser.Username, newUser.Name, newUser.Email, newUser.Password));
                     MessageBox.Show("Account created please login");
-                    currentSign.Close();
-                    Password = null;
-                    Username = null;
-                    Email = null;
-
+                    foreach(Window wnd in Application.Current.Windows)
+                    {
+                        if(wnd.Name == "wndSignUp")
+                        {
+                            wnd.Close();
+                        }
+                    }
                 }
                 else
                 {
                     MessageBox.Show("You must complete all fields");
-
                 }
             }
             else
             {
-                MessageBox.Show("Password not mactch");
+                MessageBox.Show("Invalid Password");
 
             }
         }
 
-        public void Login(object param)
+        public void showLogin(object param)
         {
-           
+            Login login = new Login();
+            login.Show();
+        }
+
+        public void login(object param)
+        {
+            UserUtils newUser = param as UserUtils;
         }
 
 

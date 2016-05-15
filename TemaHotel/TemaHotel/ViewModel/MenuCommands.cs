@@ -20,6 +20,7 @@ namespace TemaHotel.ViewModel
         private ICommand signUpCommand;
         private ICommand createUserCommand;
         private ICommand loginCommand;
+        private ICommand showLoginCommand;
         private bool isAuthenticated;
         public event PropertyChangedEventHandler PropertyChanged;
         
@@ -72,6 +73,20 @@ namespace TemaHotel.ViewModel
 
         }
 
+        public ICommand ShowLoginCommand
+        {
+            get
+            {
+                if (showLoginCommand == null)
+                {
+                    UserUtils usUtils = new UserUtils(this);
+                    showLoginCommand = new RelayCommand(usUtils.showLogin);
+                }
+                return showLoginCommand;
+            }
+
+        }
+
         public ICommand LoginCommand
         {
             get
@@ -79,12 +94,14 @@ namespace TemaHotel.ViewModel
                 if (loginCommand == null)
                 {
                     UserUtils usUtils = new UserUtils(this);
-                    createUserCommand = new RelayCommand(usUtils.Login);
+                    loginCommand = new RelayCommand(usUtils.login);
                 }
                 return loginCommand;
             }
 
         }
+
+
 
         public bool IsAuthenticated
         {

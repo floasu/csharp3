@@ -67,6 +67,9 @@
     <Compile Include="DataAccess\OperationResult.cs" />
     <Compile Include="DataAccess\RoomServiceLayer.cs" />
     <Compile Include="DataAccess\UserServiceLayer.cs" />
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
@@ -76,6 +79,10 @@
     <Compile Include="ViewModel\MainWindowVm.cs" />
     <Compile Include="ViewModel\MenuCommands.cs" />
     <Compile Include="ViewModel\UserUtils.cs" />
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -12,12 +12,24 @@ namespace TemaHotel.Convertors
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (values[0] != null && values[1] != null)
+            if (values.Length == 5)
             {
                 return new UserUtils()
                 {
-                    Password = values[0].ToString(),
-                    ConfirmPassword = values[1].ToString()
+                    
+                    Username = values[0].ToString(),
+                    Name = values[1].ToString(),
+                    Email = values[2].ToString(),
+                    Password = values[3].ToString(),
+                    ConfirmPassword = values[4].ToString()
+                };
+            }
+            else if (values.Length == 2)
+            {
+                return new UserUtils()
+                {
+                    Username = values[0].ToString(),
+                    Password = values[1].ToString(),
                 };
             }
             else

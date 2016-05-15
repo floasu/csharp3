@@ -38,7 +38,7 @@
                     </LinearGradientBrush>
                 </Menu.Background>
                 <MenuItem Header="Sign Up" Foreground="White" Command="{Binding Path=SignUpCommand}"></MenuItem>
-                <MenuItem Header="Login" Foreground="White" Command="{Binding Path=LoginCommand}">
+                <MenuItem Header="Login" Foreground="White" Command="{Binding Path=ShowLoginCommand}">
                     <MenuItem.Style>
                         <Style TargetType="MenuItem">
                             <Style.Triggers>
