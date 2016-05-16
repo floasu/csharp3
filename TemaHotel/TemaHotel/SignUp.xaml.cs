@@ -23,7 +23,7 @@ namespace TemaHotel
         public SignUp()
         {
             InitializeComponent();
-            DataContext = new MenuCommands();  
+            DataContext = new UserActionCommand();  
         }
     }
 }
