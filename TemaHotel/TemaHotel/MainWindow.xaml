@@ -52,6 +52,20 @@
                         </Style>
                     </MenuItem.Style>
                 </MenuItem>
+                <MenuItem Header="Logout" Foreground="White" Command="{Binding Path=LogoutCommand}">
+                    <MenuItem.Style>
+                        <Style TargetType="MenuItem">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsAuthenticated}" Value="True">
+                                    <Setter Property="Visibility"  Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsAuthenticated}" Value="False">
+                                    <Setter Property="Visibility"  Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
+                </MenuItem>
             </Menu>
         </DockPanel>
         <Grid  VerticalAlignment="Stretch" Grid.Row="1" >
@@ -68,22 +82,6 @@
                     <MenuItem Header="View Rooms" ></MenuItem>
           
             </Menu>
-            <!--<DockPanel LastChildFill="True" VerticalAlignment="Stretch">
-                <StackPanel DockPanel.Dock="Left" Width="100"  Background="DarkCyan">
-                    <Menu HorizontalAlignment="Left">
-                        <StackPanel HorizontalAlignment="Left">
-                        <MenuItem HorizontalContentAlignment="Left" HorizontalAlignment="Left" Header="Create Room" Foreground="White"></MenuItem>
-                        <MenuItem Header="View Rooms" Foreground="White"></MenuItem>
-                        </StackPanel>
-                    </Menu>
-                </StackPanel>
-                <StackPanel DockPanel.Dock="Right" VerticalAlignment="Stretch" Background="Sienna">
-                    <ComboBox>
-                        
-                    </ComboBox>
-                </StackPanel>
-            </DockPanel>-->
-            <!--<StackPanel Grid.Column="1" Grid.Row="1" Background="AliceBlue"></StackPanel>-->
             <Grid Grid.Column="1" Grid.Row="1">
                 <Rectangle Fill="Yellow"/>
                 <ItemsControl x:Name="lst" ItemTemplate="{DynamicResource DataTemplate_Level1}" VerticalAlignment="Top" HorizontalAlignment="Center" 

@@ -17,7 +17,7 @@ namespace TemaHotel.Model
         public bool Active { get; set; }
 
 
-        public User() { Id = 1; }
+        public User() { Id = 1; Active = true; }
         public User(string username, string name, string email, string pass, string usertp)
         {
             this.Id = 1;
@@ -37,7 +37,7 @@ namespace TemaHotel.Model
             this.Name = name;
             this.Email = email;
             this.Password = pass;
-            this.UserType = "client"; 
+            this.UserType = "client";
             this.Active = true;
 
         }

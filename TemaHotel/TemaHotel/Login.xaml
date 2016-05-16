@@ -12,7 +12,7 @@
         <Label Content="Password" Name="lblLgPass" HorizontalAlignment="Left" Margin="51,130,0,0" VerticalAlignment="Top"/>
         <TextBox Name="txtLgUsername" HorizontalAlignment="Left" Height="21" Margin="119,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95"/>
         <TextBox Name="txtLgPass" HorizontalAlignment="Left" Height="26" Margin="119,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95"/>
-        <Button Content="Login" Name="btnLogin" HorizontalAlignment="Left" Height="30" Margin="102,183,0,0" VerticalAlignment="Top" Width="76"
+        <Button Content="Login" Name="btnLogin" HorizontalAlignment="Left" Height="30" Margin="102,183,0,0" VerticalAlignment="Top" Width="76" 
         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.LoginCommand}" >
             <Button.CommandParameter>
                 <MultiBinding Converter="{StaticResource userConvert}">

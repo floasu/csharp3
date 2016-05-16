@@ -15,24 +15,26 @@ namespace TemaHotel.ViewModel
 {
     public class MenuCommands : INotifyPropertyChanged
     {
+        public User loggedUser { get; set; }
         private ObservableCollection<ObservableCollection<int>> list;
         private List<Room> rooms = new List<Room>();
         private ICommand signUpCommand;
         private ICommand createUserCommand;
         private ICommand loginCommand;
         private ICommand showLoginCommand;
+        private ICommand logoutCommand;
         private bool isAuthenticated;
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public MenuCommands()
         {
             list = new ObservableCollection<ObservableCollection<int>>();
-                for (int j = 0; j < 5; j++)
-                {
-                    List.Add(new ObservableCollection<int>());
-                    List[j].Add(j);
-                }
-           
+            for (int j = 0; j < 5; j++)
+            {
+                List.Add(new ObservableCollection<int>());
+                List[j].Add(j);
+            }
+
         }
 
         public ObservableCollection<ObservableCollection<int>> List
@@ -50,14 +52,26 @@ namespace TemaHotel.ViewModel
             get { return rooms; }
             set
             {
-                if(rooms == null)
-                { 
+                if (rooms == null)
+                {
                     rooms = new List<Room>();
                 }
                 rooms = value;
                 OnPropertyChanged("Rooms");
             }
         }
+
+
+        public User LoggedUser
+        {
+            get { return loggedUser; }
+            set
+            {
+                loggedUser = value;
+                OnPropertyChanged("LoggedUser");
+            }
+        }
+
 
         public ICommand CreateUserCommand
         {
@@ -80,9 +94,21 @@ namespace TemaHotel.ViewModel
                 if (showLoginCommand == null)
                 {
                     UserUtils usUtils = new UserUtils(this);
-                    showLoginCommand = new RelayCommand(usUtils.showLogin);
+                    showLoginCommand = new RelayCommand(showLogin);
                 }
                 return showLoginCommand;
+            }
+        }
+
+        public ICommand LogoutCommand
+        {
+            get
+            {
+                if (logoutCommand == null)
+                {
+                    logoutCommand = new RelayCommand(Logout);
+                }
+                return logoutCommand;
             }
 
         }
@@ -93,15 +119,12 @@ namespace TemaHotel.ViewModel
             {
                 if (loginCommand == null)
                 {
-                    UserUtils usUtils = new UserUtils(this);
-                    loginCommand = new RelayCommand(usUtils.login);
+                    loginCommand = new RelayCommand(Login);
                 }
                 return loginCommand;
             }
 
         }
-
-
 
         public bool IsAuthenticated
         {
@@ -126,7 +149,7 @@ namespace TemaHotel.ViewModel
             get
             {
                 if (signUpCommand == null)
-                { 
+                {
                     UserUtils newUs = new UserUtils(this);
                     signUpCommand = new RelayCommand(newUs.NewUser);
 
@@ -135,21 +158,73 @@ namespace TemaHotel.ViewModel
             }
         }
 
-
         public void databaseTest(object param)
         {
-            UserServiceLayer userInsert = new UserServiceLayer();
-            User testus = new User("usertest", "nametest", "emailtest", "Client");
-                 userInsert.AddUser(testus);
-       //     userInsert.DeleteUser(testus);
-       //     List<User> us = userInsert.GetUsers();
-            Room rm = new Room(5,"dfg","ert");
-            Room rm2 = new Room(6,"fgh","tt");
-            Rooms.Add(rm);
-            Rooms.Add(rm2);
-            List.Add(new ObservableCollection<int>());
-            List[List.Count-1].Add(112);
-         //   IsAuthenticated = true;
+            //UserServiceLayer userInsert = new UserServiceLayer();
+            //User testus = new User("usertest", "nametest", "emailtest", "pass");
+            //userInsert.AddUser(testus);
+            ////     userInsert.DeleteUser(testus);
+            ////     List<User> us = userInsert.GetUsers();
+            //Room rm = new Room(5, "dfg", "ert");
+            //Room rm2 = new Room(6, "fgh", "tt");
+            //Rooms.Add(rm);
+            //Rooms.Add(rm2);
+            //List.Add(new ObservableCollection<int>());
+            //List[List.Count - 1].Add(112);
+            if (IsAuthenticated == true)
+            {
+                IsAuthenticated = false;
+            }
+            else IsAuthenticated = true;
         }
+
+        public void showLogin(object param)
+        {
+            if (LoggedUser != null)
+            {
+                IsAuthenticated = true;
+
+            }
+            else
+            {
+                Login login = new Login();
+                login.Show();
+            }
+        }
+
+
+
+        public void Login(object param)
+        {
+            UserUtils loginDetails = param as UserUtils;
+            if (loginDetails.Username.Equals("") == false && loginDetails.Password.Equals("") == false)
+            {
+                UserServiceLayer svUs = new UserServiceLayer();
+
+                User toLog = svUs.GetUserByUsername(loginDetails.Username);
+                if (toLog != null && toLog.Password.Equals(loginDetails.Password) == true)
+                {
+                    LoggedUser = toLog;
+                    IsAuthenticated = true;
+                    MessageBox.Show("Succesfully Login");
+                    foreach (Window wnd in Application.Current.Windows)
+                    {
+                        if (wnd.Name == "wndLogin")
+                        {
+                            wnd.Close();
+                        }
+                    }
+                }
+                else MessageBox.Show("Wrong Details");
+            }
+            else MessageBox.Show("Please complete all fields");
+        }
+
+        public void Logout(object param)
+        {
+            IsAuthenticated = false;
+            LoggedUser = null;
+        }
+
     }
 }

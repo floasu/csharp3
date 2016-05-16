@@ -17,6 +17,7 @@ namespace TemaHotel.DataAccess
                 ctx.SaveChanges();
             }
         }
+    
         public List<User> GetUsers()
         {
             using (var context = new FriendContext())
@@ -25,6 +26,23 @@ namespace TemaHotel.DataAccess
                                   where user.Active == true
                                   select user;
                 return activeUsers.ToList();
+
+            }
+        }
+
+        public User GetUserByUsername(string username)
+        {
+            using (var context = new FriendContext())
+            {
+                var activeUsers = from user in context.Users
+                                  where user.Username.Equals(username)
+                                  select user;
+                if (activeUsers.ToList().Count != 1)
+                {
+                    return null;
+                }
+                User us = activeUsers.FirstOrDefault() ;
+                return us;
 
             }
         }
@@ -53,7 +71,6 @@ namespace TemaHotel.DataAccess
                 };
             }
         }
-
 
         internal OperationResult DeleteUser(User userToDelete)
         {

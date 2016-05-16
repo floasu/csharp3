@@ -12,13 +12,18 @@ namespace TemaHotel.ViewModel
 {
     public class UserUtils : INotifyPropertyChanged
     {
-        User newUser = new User();
+        User loggedUser;
         public event PropertyChangedEventHandler PropertyChanged;
         private string username;
         private string name;
         private string email;
         private String password;
         private string confirmPassword;
+
+        public UserUtils(MenuCommands com)
+        {
+            loggedUser = com.LoggedUser;
+        }
 
         public UserUtils() { }
 
@@ -44,15 +49,15 @@ namespace TemaHotel.ViewModel
 
         }
 
-        public string Email 
+        public string Email
         {
             get { return email; }
-            set 
+            set
             {
                 email = value;
                 OnPropertyChanged("Email");
             }
-            
+
         }
 
         public string Password
@@ -77,11 +82,6 @@ namespace TemaHotel.ViewModel
 
         }
 
-        public UserUtils(MenuCommands comm)
-        {
-           
-        }
-
         public void NewUser(object param)
         {
             SignUp currentSign = new SignUp();
@@ -91,16 +91,16 @@ namespace TemaHotel.ViewModel
         public void CreateUserAccount(object param)
         {
             UserUtils newUser = param as UserUtils;
-            if (newUser.Password.Equals(newUser.ConfirmPassword) && newUser.Password.Equals("") ==false)
+            if (newUser.Password.Equals(newUser.ConfirmPassword) && newUser.Password.Equals("") == false)
             {
                 if (newUser.Username.Equals("") == false && newUser.Name.Equals("") == false && newUser.Email.Equals("") == false)
                 {
                     UserServiceLayer userSv = new UserServiceLayer();
                     userSv.AddUser(new User(newUser.Username, newUser.Name, newUser.Email, newUser.Password));
                     MessageBox.Show("Account created please login");
-                    foreach(Window wnd in Application.Current.Windows)
+                    foreach (Window wnd in Application.Current.Windows)
                     {
-                        if(wnd.Name == "wndSignUp")
+                        if (wnd.Name == "wndSignUp")
                         {
                             wnd.Close();
                         }
@@ -118,18 +118,6 @@ namespace TemaHotel.ViewModel
             }
         }
 
-        public void showLogin(object param)
-        {
-            Login login = new Login();
-            login.Show();
-        }
-
-        public void login(object param)
-        {
-            UserUtils newUser = param as UserUtils;
-        }
-
-
         private void OnPropertyChanged(string property)
         {
             if (PropertyChanged != null)
@@ -137,5 +125,7 @@ namespace TemaHotel.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+
+
     }
 }
