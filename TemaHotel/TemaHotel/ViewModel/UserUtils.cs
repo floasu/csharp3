@@ -88,7 +88,11 @@ namespace TemaHotel.ViewModel
             currentSign.Show();
         }
 
-      
+        public void ManageUsers(object param)
+        {
+            ManageUsers users = new ManageUsers();
+            users.Show();
+        }
 
         private void OnPropertyChanged(string property)
         {
@@ -98,6 +102,6 @@ namespace TemaHotel.ViewModel
             }
         }
 
-
+       
     }
 }

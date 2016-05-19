@@ -14,23 +14,10 @@ namespace TemaHotel.ViewModel
 {
     class UserActionCommand : INotifyPropertyChanged
     {
-        private ICommand loginCommand;
         private ICommand createUserCommand;
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ICommand LoginCommand
-        {
-            get
-            {
-                if (loginCommand == null)
-                {
-                    loginCommand = new RelayCommand(Login);
-                }
-                return loginCommand;
-            }
-
-        }
-
+       
         public ICommand CreateUserCommand
         {
             get
@@ -42,33 +29,7 @@ namespace TemaHotel.ViewModel
                 return createUserCommand;
             }
 
-        }
-        
-        public void Login(object param)
-        {
-            UserUtils loginDetails = param as UserUtils;
-            if (loginDetails.Username.Equals("") == false && loginDetails.Password.Equals("") == false)
-            {
-                UserServiceLayer svUs = new UserServiceLayer();
-
-                User toLog = svUs.GetUserByUsername(loginDetails.Username);
-                if (toLog != null && toLog.Password.Equals(loginDetails.Password) == true)
-                {
-                    //LoggedUser = toLog;
-                    //IsAuthenticated = true;
-                    MessageBox.Show("Succesfully Login");
-                    foreach (Window wnd in Application.Current.Windows)
-                    {
-                        if (wnd.Name == "wndLogin")
-                        {
-                            wnd.Close();
-                        }
-                    }
-                }
-                else MessageBox.Show("Wrong Details");
-            }
-            else MessageBox.Show("Please complete all fields");
-        }
+        }  
 
         public void CreateUserAccount(object param)
         {
@@ -107,5 +68,8 @@ namespace TemaHotel.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+
+
+
     }
 }

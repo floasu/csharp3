@@ -16,14 +16,19 @@ using TemaHotel.ViewModel;
 namespace TemaHotel
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for ManageUsers.xaml
     /// </summary>
-    public partial class Login : Window
+    public partial class ManageUsers : Window
     {
-        public Login()
+        public ManageUsers()
         {
             InitializeComponent();
-            DataContext = new UserActionCommand();  
+            DataContext = new ManageUsersVM();
+
         }
+
+
+
+
     }
 }

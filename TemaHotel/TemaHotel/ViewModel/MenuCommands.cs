@@ -15,25 +15,75 @@ namespace TemaHotel.ViewModel
 {
     public class MenuCommands : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public User loggedUser { get; set; }
         private ObservableCollection<ObservableCollection<int>> list;
         private List<Room> rooms = new List<Room>();
+        public bool showLogin;
+        private bool isAuthenticated;
+        private bool showMenu;
+        private string username;
+        private string password;
+
         private ICommand signUpCommand;
- 
         private ICommand showLoginCommand;
         private ICommand logoutCommand;
-        private bool isAuthenticated;
-        public event PropertyChangedEventHandler PropertyChanged;
+        private ICommand loginCommand;
+        private ICommand cancelLoginCommand;
+        private ICommand manageRoomCommand;
+
+        public bool ShowMenu
+        {
+            get { return showMenu; }
+            set
+            {
+                showMenu = value;
+                OnPropertyChanged("ShowMenu");
+            }
+        }
+
+        public string Username
+        {
+            get { return username; }
+            set
+            {
+                username = value;
+                OnPropertyChanged("Username");
+            }
+        }
+     
+        public string Password
+        {
+
+            get { return password;}
+            set 
+            {
+                password = value;
+                OnPropertyChanged("Password");
+            }
+
+        }
+        public bool ShowLogin 
+        {
+            get { return showLogin; }
+            set
+            {
+                showLogin = value;
+                OnPropertyChanged("ShowLogin");
+            }
+        }
+       
+    
 
         public MenuCommands()
         {
+            ShowLogin = false;
             list = new ObservableCollection<ObservableCollection<int>>();
             for (int j = 0; j < 5; j++)
             {
                 List.Add(new ObservableCollection<int>());
                 List[j].Add(j);
             }
-
         }
 
         public ObservableCollection<ObservableCollection<int>> List
@@ -60,7 +110,6 @@ namespace TemaHotel.ViewModel
             }
         }
 
-
         public User LoggedUser
         {
             get { return loggedUser; }
@@ -71,6 +120,32 @@ namespace TemaHotel.ViewModel
             }
         }
 
+        
+        public ICommand LoginCommand
+        {
+            get
+            {
+                if (loginCommand == null)
+                {
+                    loginCommand = new RelayCommand(Login);
+                }
+                return loginCommand;
+            }
+
+        }
+
+        public ICommand CancelLoginCommand
+        {
+            get
+            {
+                if(cancelLoginCommand == null)
+                {
+                    cancelLoginCommand = new RelayCommand(CancelLogin);
+                }
+                return cancelLoginCommand;
+            }
+        }
+      
         public ICommand ShowLoginCommand
         {
             get
@@ -78,7 +153,7 @@ namespace TemaHotel.ViewModel
                 if (showLoginCommand == null)
                 {
                     UserUtils usUtils = new UserUtils(this);
-                    showLoginCommand = new RelayCommand(showLogin);
+                    showLoginCommand = new RelayCommand(DisplayLoginGrd);
                 }
                 return showLoginCommand;
             }
@@ -108,12 +183,18 @@ namespace TemaHotel.ViewModel
             }
         }
 
-        private void OnPropertyChanged(string property)
+        public ICommand ManageRoomCommand
         {
-            if (PropertyChanged != null)
+            get
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
+                if (manageRoomCommand == null)
+                {
+                   UserUtils utRoom = new UserUtils();
+                    manageRoomCommand = new RelayCommand(utRoom.ManageUsers); 
+                }
+                return manageRoomCommand;
             }
+
         }
 
         public ICommand SignUpCommand
@@ -150,25 +231,54 @@ namespace TemaHotel.ViewModel
             else IsAuthenticated = true;
         }
 
-        public void showLogin(object param)
+        public void DisplayLoginGrd(object param)
         {
-            if (LoggedUser != null)
-            {
-                IsAuthenticated = true;
+            ShowLogin = true;      
+        }
 
-            }
-            else
+        public void Login(object param)
+        {
+            UserUtils loginDetails = param as UserUtils;
+            if (Username.Equals("") == false && Password.Equals("") == false)
             {
-                Login login = new Login();
-                login.Show();
+                UserServiceLayer svUs = new UserServiceLayer();
+                User toLog = svUs.GetUserByUsername(Username);
+                if (toLog != null && toLog.Password.Equals(Password) == true)
+                {
+                    LoggedUser = toLog;
+                    IsAuthenticated = true;
+                    ShowLogin = false;
+                    Username = null;
+                    Password = null;
+                    if (LoggedUser.UserType.Equals("administrator") == true)
+                    {
+                        ShowMenu = true;
+                    }
+                    MessageBox.Show("Succesfully Login");
+                }
+                else MessageBox.Show("Wrong Details");
             }
+            else MessageBox.Show("Please complete all fields");
         }
 
         public void Logout(object param)
         {
             IsAuthenticated = false;
             LoggedUser = null;
+            ShowMenu = false;
         }
 
+        public void CancelLogin(object param)
+        {
+            ShowLogin = false;
+        }
+
+        private void OnPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
     }
 }

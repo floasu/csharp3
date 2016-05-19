@@ -67,8 +67,8 @@
     <Compile Include="DataAccess\OperationResult.cs" />
     <Compile Include="DataAccess\RoomServiceLayer.cs" />
     <Compile Include="DataAccess\UserServiceLayer.cs" />
-    <Compile Include="Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
+    <Compile Include="ManageUsers.xaml.cs">
+      <DependentUpon>ManageUsers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="SignUp.xaml.cs">
@@ -77,13 +77,11 @@
     <Compile Include="Utilities\PercentageConverter.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowVm.cs" />
+    <Compile Include="ViewModel\ManageUsersVM.cs" />
     <Compile Include="ViewModel\MenuCommands.cs" />
+    <Compile Include="ViewModel\RoomUtils.cs" />
     <Compile Include="ViewModel\UserActionCommand.cs" />
     <Compile Include="ViewModel\UserUtils.cs" />
-    <Page Include="Login.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -98,6 +96,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ManageUsers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SignUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
