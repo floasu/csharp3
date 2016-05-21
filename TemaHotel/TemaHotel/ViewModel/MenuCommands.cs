@@ -250,7 +250,7 @@ namespace TemaHotel.ViewModel
                     ShowLogin = false;
                     Username = null;
                     Password = null;
-                    if (LoggedUser.UserType.Equals("administrator") == true)
+                    if (LoggedUser.UserType.Equals("Administrator") == true)
                     {
                         ShowMenu = true;
                     }

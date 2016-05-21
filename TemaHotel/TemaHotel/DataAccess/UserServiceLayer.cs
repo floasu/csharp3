@@ -52,12 +52,16 @@ namespace TemaHotel.DataAccess
             try
             {
                 using (var context = new FriendContext())
-                {
+                { 
                     var user = from us in context.Users
                                where us.Id == userToChange.Id
                                select us;
                     var userChanged = user.First();
-                    userChanged = userToChange;
+                    userChanged.Username = userToChange.Username;
+                    userChanged.Name = userToChange.Name;
+                    userChanged.Email = userToChange.Email;
+                    userChanged.Password = userToChange.Password;
+                    userChanged.UserType = userToChange.UserType;
                     context.SaveChanges();
                     return OperationResult.OkResult;
                 }
