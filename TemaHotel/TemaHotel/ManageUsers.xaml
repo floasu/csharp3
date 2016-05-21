@@ -1,9 +1,13 @@
 ﻿<Window x:Class="TemaHotel.ManageUsers"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ManageUsers" Height="500" Width="600" Background="LightBlue">
+        Title="ManageUsers" Height="500" Width="600" WindowStartupLocation="CenterScreen"> 
+    <Window.Background>
+        <ImageBrush ImageSource="/Resources/bluesky.jpg" />
+    </Window.Background>
+    
     <Grid>
-        <ListView Name="lstVwUsers" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Users}">
+        <ListView Name="lstVwUsers"  BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Users}">
             <ListView.Resources >
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -23,15 +27,28 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox x:Name="txtUsername" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Username, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="107,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtUsername" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Username, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="107,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowUpdateDetails}" Value="False">
+                            <Setter Property="IsEnabled"  Value="True"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ShowUpdateDetails}" Value="True">
+                            <Setter Property="IsEnabled"  Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
         <TextBox x:Name="txtName" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Name, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="107,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
         <TextBox x:Name="txtEmail" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Email, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="107,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
         <TextBox x:Name="txtPassword" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Password, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="107,334,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
-        <Label Content="Username" HorizontalAlignment="Left" Margin="24,236,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
-        <Label Content="Name" HorizontalAlignment="Left" Margin="24,266,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="lblEmail" Content="Email" HorizontalAlignment="Left" Margin="24,296,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.561,0.24"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="24,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.271,0.526"/>
-        <Label Content="UserType" HorizontalAlignment="Left" Height="26" Margin="24,363,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="1.446,0.303"/>
+        <Label Content="Username" Foreground="White"  HorizontalAlignment="Left" Margin="24,236,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
+        <Label Content="Name" Foreground="White" HorizontalAlignment="Left" Margin="24,266,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblEmail" Foreground="White" Content="Email" HorizontalAlignment="Left" Margin="24,296,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.561,0.24"/>
+        <Label Content="Password" Foreground="White" HorizontalAlignment="Left" Margin="24,326,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.271,0.526"/>
+        <Label Content="UserType" Foreground="White"  HorizontalAlignment="Left" Height="26" Margin="24,363,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="1.446,0.303"/>
         <Button Name="btnAddUser" Content="Create User" Margin="340,240,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CreateUsCommand}">
             <Button.Style>

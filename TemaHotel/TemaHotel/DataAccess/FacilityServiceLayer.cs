@@ -13,10 +13,21 @@ namespace TemaHotel.DataAccess
         {
             using (var ctx = new FriendContext())
             {
-                ctx.AvailableFacilities.Add(newFacility);
-                ctx.SaveChanges();
+                var facil = from fac in ctx.AvailableFacilities
+                                       where fac.Name.Equals(newFacility.Name) == true
+                                       select fac;
+                if (facil.ToList().Count > 0)
+                {
+                    RestoreFacility(facil.FirstOrDefault() as Facility);
+                }
+                else
+                {
+                    ctx.AvailableFacilities.Add(newFacility);
+                    ctx.SaveChanges();
+                }
             }
         }
+    
         public List<Facility> GetFacilities()
         {
             using (var context = new FriendContext())
@@ -25,7 +36,6 @@ namespace TemaHotel.DataAccess
                                        where fac.Active == true
                                        select fac;
                 return activeFacilities.ToList();
-
             }
         }
 
@@ -39,7 +49,7 @@ namespace TemaHotel.DataAccess
                                where us.Id == facilityToChange.Id
                                select us;
                     var userChanged = user.First();
-                    userChanged = facilityToChange;
+                    userChanged.Name = facilityToChange.Name;
                     context.SaveChanges();
                     return OperationResult.OkResult;
                 }
@@ -53,7 +63,6 @@ namespace TemaHotel.DataAccess
                 };
             }
         }
-
 
         internal OperationResult DeleteFacility(Facility facilityToDelete)
         {

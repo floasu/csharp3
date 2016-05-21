@@ -13,8 +13,18 @@ namespace TemaHotel.Model
         public double Price { get; set; }
         public bool Active { get; set; }
 
+        public ExtraServices()
+        {
+            Active = true;
+        }
 
+        public ExtraServices(string name, double price)
+        {
+            Active = true;
+            this.Name = name;
+            this.Price = price;
+        }
 
-
+        public virtual ICollection<Room> AssocRooms { get; set; }
     }
 }

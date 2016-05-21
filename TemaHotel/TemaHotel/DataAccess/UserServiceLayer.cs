@@ -35,7 +35,7 @@ namespace TemaHotel.DataAccess
             using (var context = new FriendContext())
             {
                 var activeUsers = from user in context.Users
-                                  where user.Username.Equals(username)
+                                  where (user.Username.Equals(username) && user.Active == true)
                                   select user;
                 if (activeUsers.ToList().Count != 1)
                 {

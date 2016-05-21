@@ -131,7 +131,10 @@
 
             </Grid>
         </Grid>
-        <Grid Name="grdLogin" Background="DarkGray">
+        <Grid Name="grdLogin">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Resources/bluesky.jpg"/>
+            </Grid.Background>
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
@@ -147,11 +150,11 @@
             <Grid.Resources>
                 <localConverter:UserConvert x:Key="userConvert" />
             </Grid.Resources>
-            <Label Content="Login" Name="lblLogin" Height="31" Margin="0,37,267,0" VerticalAlignment="Top" RenderTransformOrigin="0.6,0.374" HorizontalAlignment="Center" Width="54"/>
-            <Label Content="Username" Name="lblLgUsername" Margin="0,82,309,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="63"/>
-            <Label Content="Password" Name="lblLgPass" Margin="0,130,312,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="60"/>
-            <TextBox Name="txtLgUsername" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Username, Mode=TwoWay}" Height="21" Margin="100,86,209,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Width="95"/>
-            <TextBox Name="txtLgPass" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Password, Mode=TwoWay}" Height="26" Margin="100,130,209,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Width="95"/>
+            <Label Content="Login" Foreground="White" Name="lblLogin" Height="31" Margin="100,37,267,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="54"/>
+            <Label Content="Username" Foreground="White" Name="lblLgUsername" Margin="0,82,309,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="63"/>
+            <Label Content="Password" Foreground="White" Name="lblLgPass" Margin="0,130,312,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="60"/>
+            <TextBox Name="txtLgUsername" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Username, Mode=TwoWay}" Height="21" Margin="100,86,209,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Width="130"/>
+            <TextBox Name="txtLgPass" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Password, Mode=TwoWay}" Height="26" Margin="100,130,209,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Center" Width="130"/>
             <Button Content="Login" Name="btnLogin" Height="30" Margin="0,192,282,0" VerticalAlignment="Top" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.LoginCommand}" HorizontalAlignment="Center" Width="76"/>
             <Button Content="Cancel" Name="btnLoginCancel" Height="30" Margin="100,192,167,0" VerticalAlignment="Top" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CancelLoginCommand}" HorizontalAlignment="Center" Width="76" >
             </Button>
