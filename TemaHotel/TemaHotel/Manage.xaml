@@ -9,7 +9,7 @@
                     <Grid.Background>
                         <ImageBrush ImageSource="/resources/bluesky.jpg" />
                     </Grid.Background>
-                    <ListView Name="lstVwFacility" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="207" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Facilities}" Margin="306,26,45,0">
+                    <ListView Name="lstVwFacility" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="273" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Facilities}" Margin="306,26,45,0">
                         <ListView.Resources >
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="BorderThickness" Value="5" />
@@ -26,7 +26,7 @@
                     </ListView>
                     <TextBox x:Name="txtName" TextWrapping="Wrap" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Name, Mode=TwoWay}" HorizontalAlignment="Left" Height="67" Width="195" Margin="42,83,0,0" VerticalAlignment="Top"/>
                     <Label Content="New Facility" Foreground="White"  HorizontalAlignment="Left" Margin="9,33,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
-                    <Button Name="btnAddFacility" Content="Create Facility" Margin="23,277,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                    <Button Name="btnAddFacility" Content="Create Facility" Margin="23,342,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CreateFacilityCommand}">
                         <Button.Style>
                             <Style TargetType="Button">
@@ -41,7 +41,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Name="btnDelete"  Content="Delete Facility" Margin="214,277,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                    <Button Name="btnDelete"  Content="Delete Facility" Margin="214,342,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
                  Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DeleteFacilityCommand}" 
                     CommandParameter="{Binding ElementName=lstVwFacility,Path=SelectedItem}">
                         <Button.Style>
@@ -57,7 +57,7 @@
                             </Style>
                         </Button.Style>
                     </Button>
-                    <Button Name="btnUpdateFacility" Content="Update Facility" Margin="399,277,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                    <Button Name="btnUpdateFacility" Content="Update Facility" Margin="399,342,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
                   Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.UpdateFacilityCommand}" 
                 CommandParameter="{Binding ElementName=lstVwFacility,Path=SelectedItem}">
                         <Button.Style>
@@ -124,24 +124,11 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="300"/>
-                                <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="200" />                 
+                                <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="200" />
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <TextBox x:Name="txtExtraSvName" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ExtraSvName, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="107,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ShowExtraSvUpdateDetails}" Value="False">
-                                        <Setter Property="IsEnabled"  Value="True"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding ShowExtraSvUpdateDetails}" Value="True">
-                                        <Setter Property="IsEnabled"  Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                    <TextBox x:Name="txtExtraSvName" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ExtraSvName, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="107,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtExtraSvPrice" PreviewTextInput="NumberValidationTextBox" Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ExtraSvPrice, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="107,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
                     <Label Content="Name" Foreground="White"  HorizontalAlignment="Left" Margin="24,236,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
                     <Label Content="Price" Foreground="White" HorizontalAlignment="Left" Margin="24,266,0,0" VerticalAlignment="Top"/>
@@ -240,9 +227,139 @@
                     </Button>
                 </Grid>
             </TabItem>
-
             <TabItem Header="Manage Deals">
-
+                <TabItem.Background>
+                    <ImageBrush ImageSource="resources/bluesky.jpg"/>
+                </TabItem.Background>
+                <Grid>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="resources/bluesky.jpg"/>
+                    </Grid.Background>
+                    <ListView Name="lstVwDeals"  BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Deals}">
+                        <ListView.Resources >
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="BorderThickness" Value="5" />
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Padding" Value="15,1,5,5"/>
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="150"/>
+                                <GridViewColumn Header="Number of Nights" DisplayMemberBinding="{Binding NightsNr}" Width="150" />
+                                <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80" />
+                                <GridViewColumn Header="Active From" DisplayMemberBinding="{Binding ActiveFrom}" Width="100"/>
+                                <GridViewColumn Header="Active To" DisplayMemberBinding="{Binding ActiveTo}" Width="100" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DealName, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="167,236,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                    <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DealPrice, Mode=TwoWay}" HorizontalAlignment="Left" Margin="167,277,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Height="18"/>
+                    <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.NrNights, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="167,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
+                    <Label Content="Name" Foreground="White"  HorizontalAlignment="Left" Margin="24,230,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
+                    <Label Content="Number of Nights" Foreground="White" HorizontalAlignment="Left" Margin="24,314,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Price" Foreground="White" HorizontalAlignment="Left" Margin="24,274,0,0" VerticalAlignment="Top" Width="73"/>
+                    <Label Content="Active From" Foreground="White" HorizontalAlignment="Left" Margin="24,352,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.561,0.24"/>
+                    <Label Content="Active To" Foreground="White" HorizontalAlignment="Left" Margin="24,401,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.271,0.526" Width="69"/>
+                    <Button Content="Create Deal" Margin="340,240,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CreateDealCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="False">
+                                        <Setter Property="IsEnabled"  Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="True">
+                                        <Setter Property="IsEnabled"  Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Name="btnDeleteUser"  Content="Delete Deal" Margin="340,270,0,0"  Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                 Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DeleteDealCommand}" 
+                CommandParameter="{Binding ElementName=lstVwDeals,Path=SelectedItem}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="False">
+                                        <Setter Property="IsEnabled"  Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="True">
+                                        <Setter Property="IsEnabled"  Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Update Details" Margin="340,300,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                  Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.UpdateDealCommand}" 
+                CommandParameter="{Binding ElementName=lstVwDeals,Path=SelectedItem}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="False">
+                                        <Setter Property="IsEnabled"  Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="True">
+                                        <Setter Property="IsEnabled"  Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Clear Data" Margin="340,360,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                  Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ClearDealControlsCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="False">
+                                        <Setter Property="IsEnabled"  Value="True"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="True">
+                                        <Setter Property="IsEnabled"  Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Save" HorizontalAlignment="Left" Margin="61,467,0,0" VerticalAlignment="Top" Width="74" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.SaveDealChangesCommand}"
+                 CommandParameter="{Binding ElementName=lstVwDeals,Path=SelectedItem}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="True">
+                                        <Setter Property="Visibility"  Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="False">
+                                        <Setter Property="Visibility"  Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Cancel" HorizontalAlignment="Left" Margin="183,467,0,0" VerticalAlignment="Top" Width="74" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CancelDealChangesCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="True">
+                                        <Setter Property="Visibility"  Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowDealsDetails}" Value="False">
+                                        <Setter Property="Visibility"  Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <DatePicker HorizontalAlignment="Left" Height="24" Margin="167,357,0,0" VerticalAlignment="Top" Width="111"
+                                SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DealStart, Mode=TwoWay}"/>
+                    <DatePicker HorizontalAlignment="Left" Height="24" Margin="167,404,0,0" VerticalAlignment="Top" Width="111"
+                                SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DealEnd, Mode=TwoWay}"
+                                />
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

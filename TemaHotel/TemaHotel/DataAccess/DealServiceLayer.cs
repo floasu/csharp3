@@ -39,7 +39,11 @@ namespace TemaHotel.DataAccess
                                where dl.Id == dealToModify.Id
                                select dl;
                     var dlChanged = deals.First();
-                    dlChanged = dealToModify;
+                    dlChanged.Name = dealToModify.Name;
+                    dlChanged.NightsNr = dealToModify.NightsNr;
+                    dlChanged.Price = dealToModify.Price;
+                    dlChanged.ActiveFrom = dealToModify.ActiveFrom;
+                    dlChanged.ActiveTo = dealToModify.ActiveTo;
                     context.SaveChanges();
                     return OperationResult.OkResult;
                 }

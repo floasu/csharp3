@@ -24,5 +24,7 @@ namespace TemaHotel.Model
         }
         public virtual ICollection<Facility> RoomFacilieties { get; set; }
         public virtual ICollection<ExtraServices> RoomExtraServices { get; set; }
+        public virtual ICollection<Deal> RoomsDeals { get; set; }
+        public virtual ICollection<Reservation> RoomsReservations { get; set; }
     }
 }

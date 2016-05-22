@@ -18,13 +18,23 @@ namespace TemaHotel.ViewModel
     {
         ObservableCollection<Facility> facilities = new ObservableCollection<Facility>();
         ObservableCollection<ExtraServices> extraSvs = new ObservableCollection<ExtraServices>();
+        ObservableCollection<Deal> deals = new ObservableCollection<Deal>();
         public event PropertyChangedEventHandler PropertyChanged;
         private string name;
         private string extraSvName;
         private double extraSvPrice;
-        private bool showUpdateDetails;
-        private bool showExtraSvUpdateDetails;
 
+        private string dealName;
+        private int nrNights;
+        private int dealPrice;
+        private DateTime dealStart = DateTime.Now;
+        private DateTime dealEnd = DateTime.Now;
+
+        private bool showUpdateDetails;//Show facility tab menu update buttons
+        private bool showExtraSvUpdateDetails; //show extra services tab menu update buttons
+        private bool showDealsDetails; // show deals tab menu update buttons
+
+        //Commands for Tab Facility
         private ICommand createFacilityCommand;
         private ICommand deleteFacilityCommand;
         private ICommand updateFacilityCommand;
@@ -32,13 +42,21 @@ namespace TemaHotel.ViewModel
         private ICommand saveUpdateModificationCommand;
         private ICommand cancelUpdateStateCommand;
 
+        //Commands for Tab Extra Services
+        private ICommand createDealCommand;
+        private ICommand deleteDealCommand;
+        private ICommand updateDealCommand;
+        private ICommand clearDealControlsCommand;
+        private ICommand saveDealChangesCommand;
+        private ICommand cancelDealChangesCommand;
+
+        //Commands for Tab Deals
         private ICommand createExtraSvCommand;
         private ICommand deleteExtraSvCommand;
         private ICommand updateExtraSvCommand;
         private ICommand clearExtraSvControlsCommand;
         private ICommand saveExtraSvChangesCommand;
         private ICommand cancelExtraSvChangesCommand;
-
 
         public ManageVm()
         {
@@ -47,6 +65,9 @@ namespace TemaHotel.ViewModel
 
             ExtraSvServiceLayer extraSvL = new ExtraSvServiceLayer();
             extraSvL.GetServices().ForEach(ExtraSvs.Add);
+
+            DealServiceLayer dealSv = new DealServiceLayer();
+            dealSv.GetDeals().ForEach(Deals.Add);
         }
 
         public bool ShowUpdateDetails
@@ -69,7 +90,17 @@ namespace TemaHotel.ViewModel
             }
         }
 
-  
+        public bool ShowDealsDetails
+        {
+            get { return showDealsDetails; }
+            set
+            {
+                showDealsDetails = value;
+                OnPropertyChanged("ShowDealsDetails");
+            }
+        }
+
+        //Facility Tab Icommand Properties
         public ICommand CreateFacilityCommand
         {
             get
@@ -143,7 +174,7 @@ namespace TemaHotel.ViewModel
         }
 
 
-
+        //Extra Services Tab Icommand Properties
         public ICommand CreateExtraSvCommand
         {
             get
@@ -217,6 +248,81 @@ namespace TemaHotel.ViewModel
         }
 
 
+        //Deals Tab Icommand Properties
+        public ICommand CreateDealCommand
+        {
+            get
+            {
+                if (createDealCommand == null)
+                {
+                    createDealCommand = new RelayCommand(CreateDeal);
+                }
+                return createDealCommand;
+            }
+        }
+
+        public ICommand DeleteDealCommand
+        {
+            get
+            {
+                if (deleteDealCommand == null)
+                {
+                    deleteDealCommand = new RelayCommand(DeleteDeal);
+                }
+                return deleteDealCommand;
+
+            }
+        }
+
+        public ICommand UpdateDealCommand
+        {
+            get
+            {
+                if (updateDealCommand == null)
+                {
+                    updateDealCommand = new RelayCommand(UpdateDeal);
+                }
+                return updateDealCommand;
+            }
+        }
+
+        public ICommand ClearDealControlsCommand
+        {
+            get
+            {
+                if (clearDealControlsCommand == null)
+                {
+                    clearDealControlsCommand = new RelayCommand(ClearDealControls);
+                }
+                return clearDealControlsCommand;
+            }
+        }
+
+        public ICommand SaveDealChangesCommand
+        {
+            get
+            {
+                if (saveDealChangesCommand == null)
+                {
+                    saveDealChangesCommand = new RelayCommand(SaveDealChanges);
+                }
+                return saveDealChangesCommand;
+
+            }
+        }
+
+        public ICommand CancelDealChangesCommand
+        {
+            get
+            {
+                if (cancelDealChangesCommand == null)
+                {
+                    cancelDealChangesCommand = new RelayCommand(CancelDealChanges);
+                }
+                return cancelDealChangesCommand;
+            }
+        }
+
 
         public ObservableCollection<Facility> Facilities
         {
@@ -236,7 +342,18 @@ namespace TemaHotel.ViewModel
                 extraSvs = value;
                 OnPropertyChanged("ExtraSvs");
             }
-        }   
+        }
+
+        public ObservableCollection<Deal> Deals
+        {
+            get { return deals; }
+            set
+            {
+                deals = value;
+                OnPropertyChanged("Deals");
+            }
+        }
+
 
         public string Name
         {
@@ -268,6 +385,58 @@ namespace TemaHotel.ViewModel
             }
         }
 
+        public string DealName
+        {
+            get { return dealName; }
+            set
+            {
+                dealName = value;
+                OnPropertyChanged("DealName");
+            }
+        }
+
+        public int NrNights
+        {
+            get { return nrNights; }
+            set
+            {
+                nrNights = value;
+                OnPropertyChanged("NrNights");
+            }
+        }
+
+        public int DealPrice
+        {
+            get { return dealPrice; }
+            set
+            {
+                dealPrice= value;
+                OnPropertyChanged("DealPrice");
+            }
+        }
+
+        public DateTime DealStart
+        {
+            get { return dealStart; }
+            set
+            {
+                dealStart = value;
+                OnPropertyChanged("DealStart");
+            }
+        }
+
+        public DateTime DealEnd
+        {
+            get { return dealEnd; }
+            set
+            {
+                dealEnd = value;
+                OnPropertyChanged("DealEnd");
+            }
+        }
+
+
+        //Manage FAcilitites Methods
         private void OnPropertyChanged(string property)
         {
             if (PropertyChanged != null)
@@ -283,7 +452,7 @@ namespace TemaHotel.ViewModel
                 FacilityServiceLayer facSv = new FacilityServiceLayer();
                 var item = Facilities.Where(p => p.Name.Equals(Name));
                 List<Facility> facil = item.ToList<Facility>();
-                if (facil.Count >0 )
+                if (facil.Count > 0)
                 {
                     MessageBox.Show("This facility is already in database");
                     return;
@@ -313,7 +482,7 @@ namespace TemaHotel.ViewModel
             Facility facToUp = param as Facility;
             if (facToUp != null)
             {
-                Name = facToUp.Name;   
+                Name = facToUp.Name;
                 ShowUpdateDetails = true;
             }
         }
@@ -348,15 +517,15 @@ namespace TemaHotel.ViewModel
             Name = null;
         }
 
-
+        //Manage Extra Services Methods
         public void CreateExtraSv(object param)
         {
-            if (ExtraSvName != null && ExtraSvName.Equals("") == false && ExtraSvPrice > 0 && ExtraSvPrice.Equals("") ==false)
+            if (ExtraSvName != null && ExtraSvName.Equals("") == false && ExtraSvPrice > 0)
             {
                 ExtraSvServiceLayer exSv = new ExtraSvServiceLayer();
                 var item = ExtraSvs.Where(p => (p.Name.Equals(ExtraSvName) && p.Price == ExtraSvPrice));
                 List<ExtraServices> facil = item.ToList<ExtraServices>();
-                if (facil.Count > 0 )
+                if (facil.Count > 0)
                 {
                     MessageBox.Show("This Service is already in database");
                     return;
@@ -387,7 +556,7 @@ namespace TemaHotel.ViewModel
             ExtraServices exToUp = param as ExtraServices;
             if (exToUp != null)
             {
-                ExtraSvName = exToUp.Name;   
+                ExtraSvName = exToUp.Name;
                 ExtraSvPrice = exToUp.Price;
                 ShowExtraSvUpdateDetails = true;
             }
@@ -408,13 +577,26 @@ namespace TemaHotel.ViewModel
             {
                 if (ExtraSvs[i].Id == us.Id)
                 {
-                    ExtraSvs[i].Name = ExtraSvName;
-                    facSv.ModifyService(ExtraSvs[i]);
-                    ExtraSvs.Clear();
-                    facSv.GetServices().ForEach(ExtraSvs.Add);
-                    ExtraSvName = null;
-                    ExtraSvPrice = 0;
-                    break;
+                    if (ExtraSvs[i].Price == ExtraSvPrice)
+                    {
+                        ExtraSvs[i].Name = ExtraSvName;
+                        facSv.ModifyService(ExtraSvs[i]);
+                        ExtraSvs.Clear();
+                        facSv.GetServices().ForEach(ExtraSvs.Add);
+                        ExtraSvName = null;
+                        ExtraSvPrice = 0;
+                        break;
+                    }
+                    else
+                    {
+                        facSv.DeleteService(ExtraSvs[i]);
+                        facSv.AddExtraSvIntoDb(new ExtraServices(ExtraSvName, ExtraSvPrice));
+                        ExtraSvs.Clear();
+                        facSv.GetServices().ForEach(ExtraSvs.Add);
+                        ExtraSvName = null;
+                        ExtraSvPrice = 0;
+                        break;
+                    }
                 }
             }
         }
@@ -426,6 +608,89 @@ namespace TemaHotel.ViewModel
             extraSvPrice = 0;
         }
 
+     
+        //Manage Deals Methods
+        public void CreateDeal(object param)
+        {
+            if (DealName != null && NrNights > 0 && DealPrice>0 && DealEnd > DealStart)
+            {
+                DealServiceLayer exSv = new DealServiceLayer();         
+                Deal ex = new Deal(DealName, NrNights, DealPrice, DealStart,DealEnd);
+                exSv.AddDeal(ex);
+                Deals.Add(ex);
+                ClearData();
+                MessageBox.Show("Service created");
+            }
+            else
+            {
+                MessageBox.Show("Invalid Data");
+            }
+        }
 
+        public void DeleteDeal(object param)
+        {
+            Deal us = param as Deal;
+            DealServiceLayer sv = new DealServiceLayer();
+            sv.DeleteDeal(us);
+            Deals.Remove(us);
+        }
+
+        public void UpdateDeal(object param)
+        {
+            Deal exToUp = param as Deal;
+            if (exToUp != null)
+            {
+                DealName = exToUp.Name;
+                NrNights = exToUp.NightsNr;
+                DealPrice = exToUp.Price;
+                DealStart = exToUp.ActiveFrom;
+                DealEnd = exToUp.ActiveTo;
+                ShowDealsDetails = true;
+            }
+        }
+
+        public void ClearDealControls(object param)
+        {
+            ClearData();
+        }
+
+        public void SaveDealChanges(object param)
+        {
+            ShowDealsDetails = false;
+            DealServiceLayer facSv = new DealServiceLayer();
+            Deal us = param as Deal;
+            for (int i = 0; i < Deals.Count; i++)
+            {
+                if (Deals[i].Id == us.Id)
+                {
+                    Deals[i].Name = DealName;
+                    Deals[i].NightsNr = NrNights;
+                    Deals[i].Price = DealPrice;
+                    Deals[i].ActiveFrom = DealStart;
+                    Deals[i].ActiveFrom = DealEnd;
+                    facSv.ModifyDeal(Deals[i]);
+                    Deals.Clear();
+                    facSv.GetDeals().ForEach(Deals.Add);
+                    ClearData();
+                    break;
+                 }           
+            }
+        }
+
+        public void CancelDealChanges(object param)
+        {
+            ShowDealsDetails = false;
+            ClearData();
+        }
+ 
+        public void ClearData()
+        {
+            DealName = null;
+            NrNights = 0;
+            DealPrice = 0;
+            DealStart = DateTime.Now;
+            DealEnd = DateTime.Now;
+        }
+    
     }
 }

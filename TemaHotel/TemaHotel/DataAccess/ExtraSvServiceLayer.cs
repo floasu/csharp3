@@ -17,6 +17,7 @@ namespace TemaHotel.DataAccess
                 ctx.SaveChanges();
             }
         }
+
         public List<ExtraServices> GetServices()
         {
             using (var context = new FriendContext())
@@ -39,8 +40,8 @@ namespace TemaHotel.DataAccess
                                where us.Id == svToChange.Id
                                select us;
                     var userChanged = user.First();
-                    userChanged = svToChange;
-                    context.SaveChanges();
+                        userChanged.Name = svToChange.Name;
+                        context.SaveChanges();   
                     return OperationResult.OkResult;
                 }
             }
