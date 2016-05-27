@@ -31,6 +31,8 @@ namespace TemaHotel.ViewModel
         private ICommand loginCommand;
         private ICommand cancelLoginCommand;
         private ICommand manageRoomCommand;
+        private ICommand manageAccesoriesCommand;
+        private ICommand manageUsersCommand;
 
         public bool ShowMenu
         {
@@ -170,17 +172,20 @@ namespace TemaHotel.ViewModel
                 return logoutCommand;
             }
 
-        }
-
+        } 
      
-        public bool IsAuthenticated
+        public ICommand ManageUsersCommand
         {
-            get { return isAuthenticated; }
-            set
+            get
             {
-                isAuthenticated = value;
-                OnPropertyChanged("IsAuthenticated");
+                if (manageUsersCommand == null)
+                {
+                   UserUtils utRoom = new UserUtils();
+                    manageUsersCommand = new RelayCommand(utRoom.ManageUsers); 
+                }
+                return manageUsersCommand;
             }
+
         }
 
         public ICommand ManageRoomCommand
@@ -189,8 +194,7 @@ namespace TemaHotel.ViewModel
             {
                 if (manageRoomCommand == null)
                 {
-                   UserUtils utRoom = new UserUtils();
-                    manageRoomCommand = new RelayCommand(utRoom.ManageUsers); 
+                    manageRoomCommand = new RelayCommand(ManageRoom);
                 }
                 return manageRoomCommand;
             }
@@ -208,6 +212,28 @@ namespace TemaHotel.ViewModel
 
                 }
                 return signUpCommand;
+            }
+        }
+
+        public ICommand ManageAccesoriesCommand
+        {
+            get
+            {
+                if(manageAccesoriesCommand == null)
+                {
+                    manageAccesoriesCommand = new RelayCommand(ShowAccesories);
+                }
+                return manageAccesoriesCommand;
+            }
+        }
+
+        public bool IsAuthenticated
+        {
+            get { return isAuthenticated; }
+            set
+            {
+                isAuthenticated = value;
+                OnPropertyChanged("IsAuthenticated");
             }
         }
 
@@ -279,6 +305,18 @@ namespace TemaHotel.ViewModel
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
+        }
+ 
+        private void ShowAccesories(object param)
+        {
+            ManageFacilities manWnd = new ManageFacilities();
+            manWnd.Show();
+        }
+
+        public void ManageRoom(object param)
+        {
+            ManageRooms rooms = new ManageRooms();
+            rooms.Show();
         }
     }
 }

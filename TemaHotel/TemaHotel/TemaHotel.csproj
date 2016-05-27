@@ -67,8 +67,11 @@
     <Compile Include="DataAccess\OperationResult.cs" />
     <Compile Include="DataAccess\RoomServiceLayer.cs" />
     <Compile Include="DataAccess\UserServiceLayer.cs" />
-    <Compile Include="Manage.xaml.cs">
-      <DependentUpon>Manage.xaml</DependentUpon>
+    <Compile Include="ManageFacilities.xaml.cs">
+      <DependentUpon>ManageFacilities.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManageRooms.xaml.cs">
+      <DependentUpon>ManageRooms.xaml</DependentUpon>
     </Compile>
     <Compile Include="ManageUsers.xaml.cs">
       <DependentUpon>ManageUsers.xaml</DependentUpon>
@@ -79,6 +82,7 @@
     </Compile>
     <Compile Include="Utilities\PercentageConverter.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
+    <Compile Include="ViewModel\ManageRoomVm.cs" />
     <Compile Include="ViewModel\ManageVm.cs" />
     <Compile Include="ViewModel\ManageUsersVM.cs" />
     <Compile Include="ViewModel\MenuCommands.cs" />
@@ -99,7 +103,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Manage.xaml">
+    <Page Include="ManageFacilities.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManageRooms.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

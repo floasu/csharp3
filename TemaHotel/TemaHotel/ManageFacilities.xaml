@@ -227,10 +227,7 @@
                     </Button>
                 </Grid>
             </TabItem>
-            <TabItem Header="Manage Deals">
-                <TabItem.Background>
-                    <ImageBrush ImageSource="resources/bluesky.jpg"/>
-                </TabItem.Background>
+            <TabItem Header="Manage Deals">  
                 <Grid>
                     <Grid.Background>
                         <ImageBrush ImageSource="resources/bluesky.jpg"/>

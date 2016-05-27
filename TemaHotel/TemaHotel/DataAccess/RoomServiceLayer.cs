@@ -13,6 +13,10 @@ namespace TemaHotel.DataAccess
         {
             using (var ctx = new FriendContext())
             {
+                foreach (Facility fac in newRoom.RoomFacilieties)
+                {
+                    ctx.AvailableFacilities.Attach(fac);
+                }
                 ctx.Rooms.Add(newRoom);
                 ctx.SaveChanges();
             }

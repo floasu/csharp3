@@ -116,12 +116,9 @@
                             </Style.Triggers>
                         </Style>
                     </Menu.Style>
-                    <MenuItem Header="Administrare conturi" Command="{Binding Path=ManageRoomCommand}"/>
-                    <MenuItem Header="Administrare camere" />
-                    <MenuItem Header="Administrare dotari" />
-                    <MenuItem Header="Administrare servicii" />
-                    <MenuItem Header="Administrare camere" />
-                    <MenuItem Header="Administrare oferte" />
+                    <MenuItem Header="Manage Users" Command="{Binding Path=ManageUsersCommand}"/>
+                    <MenuItem Header="Manage Rooms" Command="{Binding Path=ManageRoomCommand}"/>
+                    <MenuItem Header="Manage Accessories and Deals " Command="{Binding Path=ManageAccesoriesCommand}"/>
                 </Menu>
                 <Grid Grid.Column="1" Grid.Row="1">
                     <Rectangle Fill="Yellow"/>
