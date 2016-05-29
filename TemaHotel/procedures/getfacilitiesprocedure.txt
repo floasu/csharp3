@@ -1,0 +1,8 @@
+CREATE PROCEDURE dbo.GetFacilities @RoomId int
+AS
+SELECT * 
+FROM RoomFacilities
+WHERE Room_Id = @RoomId
+GO
+
+EXEC dbo.GetFacilities @RoomId = 2

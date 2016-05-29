@@ -58,7 +58,6 @@ namespace TemaHotel.DataAccess
             }
         }
 
-
         internal OperationResult DeleteRoom(Room roomToDelete)
         {
             try

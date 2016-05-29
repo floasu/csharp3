@@ -65,6 +65,7 @@
     <Compile Include="DataAccess\ExtraSvServiceLayer.cs" />
     <Compile Include="DataAccess\FacilityServiceLayer.cs" />
     <Compile Include="DataAccess\OperationResult.cs" />
+    <Compile Include="DataAccess\PicturesServiceLayer.cs" />
     <Compile Include="DataAccess\RoomServiceLayer.cs" />
     <Compile Include="DataAccess\UserServiceLayer.cs" />
     <Compile Include="ManageFacilities.xaml.cs">
@@ -77,6 +78,7 @@
       <DependentUpon>ManageUsers.xaml</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Picture.cs" />
     <Compile Include="SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>
@@ -168,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\bluesky.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\default.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

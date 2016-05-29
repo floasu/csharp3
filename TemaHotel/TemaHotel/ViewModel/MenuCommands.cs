@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using TemaHotel.DataAccess;
 using TemaHotel.Model;
 using TemaHotel.Utilities;
@@ -17,9 +18,8 @@ namespace TemaHotel.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public User loggedUser { get; set; }
-        private ObservableCollection<ObservableCollection<int>> list;
-        private List<Room> rooms = new List<Room>();
         public bool showLogin;
+        public bool showReservations;
         private bool isAuthenticated;
         private bool showMenu;
         private string username;
@@ -65,6 +65,7 @@ namespace TemaHotel.ViewModel
             }
 
         }
+    
         public bool ShowLogin 
         {
             get { return showLogin; }
@@ -74,42 +75,24 @@ namespace TemaHotel.ViewModel
                 OnPropertyChanged("ShowLogin");
             }
         }
-       
-    
+
+        public bool ShowReservations
+        {
+            get { return showReservations; }
+            set
+            {
+                showReservations = value;
+                OnPropertyChanged("ShowReservations");
+            }
+        }
 
         public MenuCommands()
         {
             ShowLogin = false;
-            list = new ObservableCollection<ObservableCollection<int>>();
-            for (int j = 0; j < 5; j++)
-            {
-                List.Add(new ObservableCollection<int>());
-                List[j].Add(j);
-            }
-        }
+            ShowReservations = true;
 
-        public ObservableCollection<ObservableCollection<int>> List
-        {
-            get { return list; }
-            set
-            {
-                list = value;
-                OnPropertyChanged("List");
-            }
-        }
-
-        public List<Room> Rooms
-        {
-            get { return rooms; }
-            set
-            {
-                if (rooms == null)
-                {
-                    rooms = new List<Room>();
-                }
-                rooms = value;
-                OnPropertyChanged("Rooms");
-            }
+            RoomServiceLayer rmsv = new RoomServiceLayer();
+            rmsv.GetRooms().ForEach(FreeRooms.Add);
         }
 
         public User LoggedUser
@@ -121,8 +104,7 @@ namespace TemaHotel.ViewModel
                 OnPropertyChanged("LoggedUser");
             }
         }
-
-        
+    
         public ICommand LoginCommand
         {
             get
@@ -315,8 +297,197 @@ namespace TemaHotel.ViewModel
 
         public void ManageRoom(object param)
         {
-            ManageRooms rooms = new ManageRooms();
-            rooms.Show();
+            ManageRooms rms = new ManageRooms();
+            rms.Show();
         }
+
+
+
+
+        private Reservation currentReservation = new Reservation();
+        private ObservableCollection<Room> reservedRooms = new ObservableCollection<Room>();
+        private ObservableCollection<Room> freeRooms = new ObservableCollection<Room>();
+        private ObservableCollection<Facility> roomFacilities = new ObservableCollection<Facility>();
+        private ObservableCollection<String> imagesSource = new ObservableCollection<String>();
+        private Room selectedRoom;
+        private String currentSourceImage;
+        private BitmapImage currentImage;
+        private string name;
+        private int price;
+        private int roomNbr;
+        private bool showViewState;
+        private bool showEditState;
+      
+       
+        public Reservation CurrentReservation
+        {
+            get { return currentReservation; }
+            set
+            {
+                currentReservation = value;
+                OnPropertyChanged("CurrentReservation");
+            }
+        }
+
+        public Room SelectedRoom
+        {
+            get { return selectedRoom; }
+            set
+            {
+                selectedRoom = value;
+                if (selectedRoom != null)
+                {
+                    ImagesSource = selectedRoom.getRoomPictures();
+                    if (ImagesSource != null && ImagesSource.Count > 0)
+                    {
+                        CurrentSourceImage = ImagesSource[0];
+                    }
+                }
+                OnPropertyChanged("SelectedRoom");
+            }
+        }
+
+        public BitmapImage CurrentImage
+        {
+            get { return currentImage; }
+            set
+            {
+                currentImage = value;
+                OnPropertyChanged("CurrentImage");
+            }
+        }
+
+        public String CurrentSourceImage
+        {
+            get { return currentSourceImage; }
+            set
+            {
+                if (value != null)
+                {
+                    currentSourceImage = value;
+                    Uri source = new Uri(CurrentSourceImage);
+                    CurrentImage = new BitmapImage(source);
+                    OnPropertyChanged("CurrentImage");
+                }
+                else
+                {
+                    currentSourceImage = null;
+                }
+            }
+        }
+
+        public bool ShowViewState
+        {
+            get { return showViewState; }
+            set
+            {
+                showViewState = value;
+                OnPropertyChanged("ShowViewState");
+            }
+        }
+
+        public bool ShowEditState
+        {
+            get { return showEditState; }
+            set
+            {
+                showEditState = value;
+                OnPropertyChanged("ShowEditState");
+            }
+        }
+
+   
+
+        public ObservableCollection<Room> FreeRooms
+        {
+            get { return freeRooms; }
+            set
+            {
+                freeRooms = value;
+                OnPropertyChanged("FreeRooms");
+            }
+        }
+
+        public ObservableCollection<Room> ReservedRoom
+        {
+            get { return reservedRooms; }
+            set
+            {
+                reservedRooms = value;
+                OnPropertyChanged("ReservedRooms");
+            }
+        }
+        
+        public ObservableCollection<Facility> RoomFacilities
+        {
+            get { return roomFacilities; }
+            set
+            {
+                roomFacilities = value;
+                OnPropertyChanged("RoomFacilities");
+            }
+        }
+
+        public ObservableCollection<String> ImagesSource
+        {
+            get { return imagesSource; }
+            set
+            {
+                imagesSource = value;
+                OnPropertyChanged("ImagesSource");
+            }
+        }
+
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public int Price
+        {
+            get { return price; }
+            set
+            {
+                price = value;
+                OnPropertyChanged("Price");
+            }
+        }
+
+        public int RoomNbr
+        {
+            get { return roomNbr; }
+            set
+            {
+                roomNbr = value;
+                OnPropertyChanged("RoomNbr");
+            }
+        }
+
+
+        public void ClearDataControls(object param)
+        {
+            ClearAddStateData();
+        }    
+
+        public void ClearAddStateData()
+        {
+            Name = null;
+            Price = 0;
+            RoomNbr = 0;
+            RoomFacilities.Clear();
+            ImagesSource.Clear();
+            CurrentImage = null;
+        }
+    
+    
+    
+    
+    
+    
     }
 }

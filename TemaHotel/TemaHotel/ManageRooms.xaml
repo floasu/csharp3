@@ -11,13 +11,25 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Add New Room" Command="{Binding Path=CreateRoomCommand}"/>
-            <MenuItem Header="Edit Room" Command="{Binding Path=ManageRoomCommand}"/>
-            <MenuItem Header="Delete Rooms" Command="{Binding Path=ManageAccesoriesCommand}"/>
+            <MenuItem Header="Rooms" Command="{Binding Path=ViewStateCommand}"/>
+            <MenuItem Header="Add New Room" Command="{Binding Path=ShowAddStateCommand}"/>
         </Menu>
         <Grid Grid.Row="1">
-            <Grid>
-                <ListView Name="lstVwRooms"  BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Rooms}" HorizontalAlignment="Left" Width="369">
+            <Grid Name="grdRooms">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowViewState}" Value="True">
+                                <Setter Property="Visibility"  Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ShowViewState}" Value="False">
+                                <Setter Property="Visibility"  Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <ListView Name="lstVwRooms"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Rooms}" HorizontalAlignment="Left" Width="544" Margin="46,0,0,0"
+                           SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
                     <ListView.Resources >
                         <Style TargetType="{x:Type GridViewColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -29,13 +41,13 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="100"/>
-                            <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="100" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="200"/>
+                            <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="150" />
                             <GridViewColumn Header="Number Of Rooms" DisplayMemberBinding="{Binding NbrRooms}" Width="150"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView Name="lstVwAllFacility" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="178" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Facilities}" Margin="345,215,0,0" HorizontalAlignment="Left" Width="162">
+                <ListView Name="lstVwFacilityRooms" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.SpecificFacilities}" Margin="590,0,0,0" HorizontalAlignment="Left" Width="170">
                     <ListView.Resources >
                         <Style TargetType="{x:Type GridViewColumnHeader}">
                             <Setter Property="BorderThickness" Value="5" />
@@ -50,7 +62,46 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView Name="lstVwRoomFacility" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="178" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RoomFacilities}" Margin="565,215,52,0">
+                <Button Content="Edit Room" HorizontalAlignment="Left" Height="26" Margin="134,210,0,0" VerticalAlignment="Top" Width="122"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.EditRoomCommand}" 
+                         CommandParameter="{Binding ElementName=lstVwRooms,Path=SelectedItem}"/>
+                <Button Content="Remove" HorizontalAlignment="Left" Height="26" Margin="306,210,0,0" VerticalAlignment="Top" Width="138"
+                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DeleteRoomCommand}" 
+                         CommandParameter="{Binding ElementName=lstVwRooms,Path=SelectedItem}"/>
+                <ListBox Name="lstViewStateImages" HorizontalAlignment="Left" Height="138" Margin="28,270,0,0" VerticalAlignment="Top" Width="298"
+                         ItemsSource="{Binding ImagesSource}" SelectedItem="{Binding CurrentSourceImage}"/>
+                <Image HorizontalAlignment="Left" Height="138" Margin="416,270,0,0" VerticalAlignment="Top" Width="286"
+                       Source="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CurrentImage}"/>
+            </Grid>
+            <Grid Name="grdEdit">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowViewState}" Value="False">
+                                <Setter Property="Visibility"  Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ShowViewState}" Value="True">
+                                <Setter Property="Visibility"  Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <ListView Name="lstVwAllFacility" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="178" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Facilities}" Margin="347,16,0,0" HorizontalAlignment="Left" Width="162">
+                    <ListView.Resources >
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="BorderThickness" Value="5" />
+                            <Setter Property="Margin" Value="0"/>
+                            <Setter Property="Padding" Value="15,1,5,5"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Available Facilities" DisplayMemberBinding="{Binding Name}" Width="150"  />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView Name="lstVwRoomFacility" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="178" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.RoomFacilities}" Margin="567,16,50,0">
                     <ListView.Resources >
                         <Style TargetType="{x:Type GridViewColumnHeader}">
                             <Setter Property="BorderThickness" Value="5" />
@@ -65,39 +116,86 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Name, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="157,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Price, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="157,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
-                <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.RoomNbr, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="157,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
-                <Label Content="Name" Foreground="White"  HorizontalAlignment="Left" Margin="24,236,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
-                <Label Content="Price" Foreground="White" HorizontalAlignment="Left" Margin="24,266,0,0" VerticalAlignment="Top"/>
-                <Label Content="Numbers Of Rooms" Foreground="White" HorizontalAlignment="Left" Margin="24,296,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.561,0.24"/>
-                <Button Name="btnClearData" Content="Clear Data" Margin="64,340,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="142"
+                <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Name, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Width="111" Margin="157,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.Price, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="157,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
+                <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.RoomNbr, Mode=TwoWay}" HorizontalAlignment="Left" Height="18" Margin="157,103,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111"/>
+                <Label Content="Name" Foreground="White"  HorizontalAlignment="Left" Margin="24,35,0,0" VerticalAlignment="Top" Height="28" RenderTransformOrigin="1.158,-1.986"/>
+                <Label Content="Price" Foreground="White" HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top"/>
+                <Label Content="Numbers Of Rooms" Foreground="White" HorizontalAlignment="Left" Margin="24,98,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.561,0.24"/>
+                <Button Name="btnClearData" Content="Clear Data" Margin="24,140,0,0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="94"
                   Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ClearDataControlsCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ShowUpdateDetails}" Value="False">
-                                    <Setter Property="IsEnabled"  Value="True"/>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="False">
+                                    <Setter Property="Visibility"  Value="Visible"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding ShowUpdateDetails}" Value="True">
-                                    <Setter Property="IsEnabled"  Value="False"/>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="True">
+                                    <Setter  Property="Visibility"  Value="Hidden"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button Content="Add" HorizontalAlignment="Left" Height="20" Margin="512,275,0,0" VerticalAlignment="Top" Width="48"
+                <Button Content="Add" HorizontalAlignment="Left" Height="20" Margin="514,76,0,0" VerticalAlignment="Top" Width="48"
                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.AddFacilitytoRoomCommand}"
                         CommandParameter="{Binding ElementName=lstVwAllFacility,Path=SelectedItem}"/>
-                <Button Content="Remove" HorizontalAlignment="Left" Height="20" Margin="512,316,0,0" VerticalAlignment="Top" Width="48"
+                <Button Content="Remove" HorizontalAlignment="Left" Height="20" Margin="514,117,0,0" VerticalAlignment="Top" Width="48"
                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.RemoveFacilityFromRoomCommand}"
                         CommandParameter="{Binding ElementName=lstVwRoomFacility,Path=SelectedItem}"/>
-                <Image HorizontalAlignment="Left" Height="92" Margin="584,19,0,0" VerticalAlignment="Top" Width="123"
+                <Image HorizontalAlignment="Left" Height="138" Margin="388,227,0,0" VerticalAlignment="Top" Width="285"
                        Source="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CurrentImage}"/>
-                <Button Content="Button" HorizontalAlignment="Left" Height="21" Margin="575,132,0,0" VerticalAlignment="Top" Width="57"
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.NextImageCommand}"/>
-                <Button Content="Button" HorizontalAlignment="Left" Height="21" Margin="517,132,0,0" VerticalAlignment="Top" Width="53"/>
-                <ListBox HorizontalAlignment="Left" Height="134" Margin="405,19,0,0" VerticalAlignment="Top" Width="102"/>
+                <Button Content="Upload Images" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.UploadPicturesCommand}" HorizontalAlignment="Left" Height="20" Margin="56,380,0,0" VerticalAlignment="Top" Width="100"/>
+                <ListBox Name="lstImages" HorizontalAlignment="Left" Height="138" Margin="38,227,0,0" VerticalAlignment="Top" Width="298"
+                         ItemsSource="{Binding ImagesSource}" SelectedItem="{Binding CurrentSourceImage}"/>
+                <Button Content="Create" HorizontalAlignment="Left" Height="20" Margin="375,408,0,0" VerticalAlignment="Top" Width="87"
+                        Command="{Binding Path=CreateRoomCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="False">
+                                    <Setter Property="Visibility"  Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="True">
+                                    <Setter  Property="Visibility"  Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Remove Image" HorizontalAlignment="Left" Height="20" Margin="178,380,0,0" VerticalAlignment="Top" Width="100"
+                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DeleteImageCommand}" 
+                         CommandParameter="{Binding ElementName=lstImages,Path=SelectedItem}"/>
+                <Button Content="Save" HorizontalAlignment="Left" Height="20" Margin="286,408,0,0" VerticalAlignment="Top" Width="70"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.SaveChangesCommand}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ShowEditState}" Value="True">
+                                <Setter Property="Visibility"  Value="Visible"/>
+                            </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="False">
+                                <Setter  Property="Visibility"  Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                </Button>
+                <Button Content="Cancel" HorizontalAlignment="Left" Height="20" Margin="482,408,0,0" VerticalAlignment="Top" Width="70"
+                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CancelEditStateCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="True">
+                                    <Setter Property="Visibility"  Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ShowEditState}" Value="False">
+                                    <Setter  Property="Visibility"  Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
 
         </Grid>

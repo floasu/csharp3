@@ -14,6 +14,7 @@ namespace TemaHotel.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Deal> Deals { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         public DbSet<ExtraServices> Services { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
 

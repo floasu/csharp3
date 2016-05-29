@@ -4,26 +4,15 @@
         xmlns:local="clr-namespace:TemaHotel.ViewModel"
         xmlns:converters="clr-namespace:TemaHotel.Utilities"
         xmlns:localConverter="clr-namespace:TemaHotel.Convertors"
-        Title="MainWindow" Height="500" Width="625" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="500" Width="765" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <ImageBrush ImageSource="/Resources/bluesky.jpg"></ImageBrush>
+    </Window.Background>
     <Window.DataContext>
         <local:MenuCommands />
     </Window.DataContext>
-    <Window.Resources>
-        <DataTemplate x:Key="DataTemplate_Level2">
-            <Rectangle Fill="Black" Height="40"  Width="{Binding ActualWidth, ElementName=lst, Converter={converters:PercentageConverter}, ConverterParameter='80'}" HorizontalAlignment="Stretch" Margin="4,4,4,4"/>
-        </DataTemplate>
-        <DataTemplate x:Key="DataTemplate_Level1">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource DataTemplate_Level2}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
-    </Window.Resources>
     <Grid>
-        <Grid Name="mainGrd">
+        <!--<Grid Name="mainGrd">
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
@@ -121,9 +110,71 @@
                     <MenuItem Header="Manage Accessories and Deals " Command="{Binding Path=ManageAccesoriesCommand}"/>
                 </Menu>
                 <Grid Grid.Column="1" Grid.Row="1">
-                    <Rectangle Fill="Yellow"/>
+                    <Grid Name="grdRooms">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ShowViewState}" Value="True">
+                                        <Setter Property="Visibility"  Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ShowViewState}" Value="False">
+                                        <Setter Property="Visibility"  Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
+                        <ListView Name="lstVwRooms"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.Rooms}" HorizontalAlignment="Left" Width="432" Margin="46,0,0,0"
+                           SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+                            <ListView.Resources >
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="BorderThickness" Value="5" />
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="15,1,5,5"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="150"/>
+                                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="100" />
+                                    <GridViewColumn Header="Number Of Rooms" DisplayMemberBinding="{Binding NbrRooms}" Width="150"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <ListView Name="lstVwFacilityRooms" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="200" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.SpecificFacilities}" Margin="478,0,-31,0" HorizontalAlignment="Left" Width="170">
+                            <ListView.Resources >
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="BorderThickness" Value="5" />
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="15,1,5,5"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                </Style>
+                            </ListView.Resources>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Available Facilities" DisplayMemberBinding="{Binding Name}" Width="150"  />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="Edit Room" HorizontalAlignment="Left" Height="26" Margin="134,210,0,0" VerticalAlignment="Top" Width="122"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.EditRoomCommand}" 
+                         CommandParameter="{Binding ElementName=lstVwRooms,Path=SelectedItem}"/>
+                        <Button Content="Remove" HorizontalAlignment="Left" Height="26" Margin="306,210,0,0" VerticalAlignment="Top" Width="138"
+                         Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.DeleteRoomCommand}" 
+                         CommandParameter="{Binding ElementName=lstVwRooms,Path=SelectedItem}"/>
+                        -->
+        <!--<ListBox Name="lstViewStateImages" HorizontalAlignment="Left" Height="138" Margin="28,270,0,0" VerticalAlignment="Top" Width="298"
+                         ItemsSource="{Binding ImagesSource}" SelectedItem="{Binding CurrentSourceImage}"/>-->
+        <!--
+                        <Image HorizontalAlignment="Left" Height="138" Margin="416,270,0,0" VerticalAlignment="Top" Width="286"
+                       Source="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CurrentImage}"/>
+                    </Grid>
+                    -->
+        <!--<Rectangle Fill="Yellow"/>
                     <ItemsControl x:Name="lst" ItemTemplate="{DynamicResource DataTemplate_Level1}" VerticalAlignment="Top" HorizontalAlignment="Center" 
-                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.List}"/>
+                          ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.List}"/>-->
+        <!--
                 </Grid>
 
             </Grid>
@@ -155,6 +206,80 @@
             <Button Content="Login" Name="btnLogin" Height="30" Margin="0,192,282,0" VerticalAlignment="Top" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.LoginCommand}" HorizontalAlignment="Center" Width="76"/>
             <Button Content="Cancel" Name="btnLoginCancel" Height="30" Margin="100,192,167,0" VerticalAlignment="Top" Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CancelLoginCommand}" HorizontalAlignment="Center" Width="76" >
             </Button>
+        </Grid>-->
+        <Grid Name="grdReservation">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ShowReservations}" Value="True">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ShowReservations}" Value="False">
+                            <Setter Property="Visibility"  Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <ListView Name="lstVwFreeRoomsReserve"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.FreeRooms}" HorizontalAlignment="Left" Width="544" Margin="10,36,0,0"
+                           SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+                <ListView.Resources >
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="5" />
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Padding" Value="15,1,5,5"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="200"/>
+                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="150" />
+                        <GridViewColumn Header="Number Of Rooms" DisplayMemberBinding="{Binding NbrRooms}" Width="150"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView Name="lstVwFacilityRoomsRes" BorderBrush="RoyalBlue"  BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.SpecificFacilities}" Margin="559,36,0,0" HorizontalAlignment="Left" Width="170">
+                <ListView.Resources >
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="BorderThickness" Value="5" />
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Padding" Value="15,1,5,5"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Available Facilities" DisplayMemberBinding="{Binding Name}" Width="150"  />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Image HorizontalAlignment="Left" Height="138" Margin="443,136,0,0" VerticalAlignment="Top" Width="286"
+                       Source="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CurrentImage}"/>
+            <ListView Name="lstVwReservedRooms"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ReservedRoom}" HorizontalAlignment="Left" Width="544" Margin="43,307,0,0"
+                           SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+                <ListView.Resources >
+                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="5" />
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Padding" Value="15,1,5,5"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="200"/>
+                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="150" />
+                        <GridViewColumn Header="Number Of Rooms" DisplayMemberBinding="{Binding NbrRooms}" Width="150"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <DatePicker HorizontalAlignment="Left" Height="28" Margin="102,8,0,0" VerticalAlignment="Top" Width="115"/>
+            <Label Content="From" Foreground="White" HorizontalAlignment="Left" Height="28" Margin="29,8,0,0" VerticalAlignment="Top" Width="68"/>
+            <Label Content="To" Foreground="White" HorizontalAlignment="Left" Height="30" Margin="255,8,0,0" VerticalAlignment="Top" Width="68"/>
+            <DatePicker HorizontalAlignment="Left" Height="30" Margin="328,8,0,0" VerticalAlignment="Top" Width="115"/>
+            <Button Content="Search Rooms" HorizontalAlignment="Left" Height="21" Margin="493,10,0,0" VerticalAlignment="Top" Width="94"/>
         </Grid>
     </Grid>
 </Window>
