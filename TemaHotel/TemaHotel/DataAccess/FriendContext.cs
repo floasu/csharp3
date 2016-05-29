@@ -17,6 +17,7 @@ namespace TemaHotel.DataAccess
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<ExtraServices> Services { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<ReservationRoomRow> RowsOfReservations { get; set; }
 
 
         public FriendContext()

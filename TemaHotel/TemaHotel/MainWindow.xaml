@@ -220,7 +220,7 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <ListView Name="lstVwFreeRoomsReserve"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.FreeRooms}" HorizontalAlignment="Left" Width="544" Margin="10,36,0,0"
+            <ListView Name="lstVwFreeRoomsReserve"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.FreeRooms}" HorizontalAlignment="Left" Width="297" Margin="10,36,0,0"
                            SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
                 <ListView.Resources >
                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -234,8 +234,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name, Mode=TwoWay}" Width="200"/>
-                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="150" />
-                        <GridViewColumn Header="Number Of Rooms" DisplayMemberBinding="{Binding NbrRooms}" Width="150"/>
+                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="70" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -254,10 +253,9 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Image HorizontalAlignment="Left" Height="138" Margin="443,136,0,0" VerticalAlignment="Top" Width="286"
+            <Image HorizontalAlignment="Left" Height="86" Margin="328,66,0,0" VerticalAlignment="Top" Width="193"
                        Source="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.CurrentImage}"/>
-            <ListView Name="lstVwReservedRooms"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ReservedRoom}" HorizontalAlignment="Left" Width="544" Margin="43,307,0,0"
-                           SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+            <ListView Name="lstVwReservedRooms"  BorderBrush="RoyalBlue"    BorderThickness="5" Padding="0" Height="116" VerticalAlignment="Top" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.ReservationItems}" HorizontalAlignment="Left" Width="544" Margin="43,307,0,0">
                 <ListView.Resources >
                     <Style TargetType="{x:Type GridViewColumnHeader}">
                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -275,11 +273,19 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <DatePicker HorizontalAlignment="Left" Height="28" Margin="102,8,0,0" VerticalAlignment="Top" Width="115"/>
+            <DatePicker HorizontalAlignment="Left" Height="28" Margin="102,8,0,0" VerticalAlignment="Top" Width="115"
+                         SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ResStart, Mode=TwoWay}"/>
             <Label Content="From" Foreground="White" HorizontalAlignment="Left" Height="28" Margin="29,8,0,0" VerticalAlignment="Top" Width="68"/>
             <Label Content="To" Foreground="White" HorizontalAlignment="Left" Height="30" Margin="255,8,0,0" VerticalAlignment="Top" Width="68"/>
-            <DatePicker HorizontalAlignment="Left" Height="30" Margin="328,8,0,0" VerticalAlignment="Top" Width="115"/>
-            <Button Content="Search Rooms" HorizontalAlignment="Left" Height="21" Margin="493,10,0,0" VerticalAlignment="Top" Width="94"/>
+            <DatePicker HorizontalAlignment="Left" Height="30" Margin="328,8,0,0" VerticalAlignment="Top" Width="115"
+                         SelectedDate="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.ResEnd, Mode=TwoWay}"/>
+            <Button Content="Search Rooms" HorizontalAlignment="Left" Height="21" Margin="493,10,0,0" VerticalAlignment="Top" Width="94"
+                    Command="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.SearchFreeRoomsCommand}"/>
+            <Button Content="Reserve" HorizontalAlignment="Left" Height="20" Margin="29,203,0,0" VerticalAlignment="Top" Width="73"/>
+            <ComboBox HorizontalAlignment="Left" Height="20" Margin="157,165,0,0" VerticalAlignment="Top" Width="55"
+                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=Window},Path=DataContext.RoomNrSource, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedNumber}" />
+            <Label Content="Number of Rooms" Foreground="White" HorizontalAlignment="Left" Height="29" Margin="24,160,0,0" VerticalAlignment="Top" Width="116"/>
         </Grid>
     </Grid>
 </Window>

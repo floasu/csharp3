@@ -33,6 +33,8 @@ namespace TemaHotel.Model
             initialize();
         }
 
+
+        public virtual ICollection<ReservationRoomRow> ReservationRoomsList { get; set; }
         public virtual ICollection<Picture> RoomPictures { get; set; }
         public virtual ICollection<Facility> RoomFacilieties { get; set; }
         public virtual ICollection<ExtraServices> RoomExtraServices { get; set; }

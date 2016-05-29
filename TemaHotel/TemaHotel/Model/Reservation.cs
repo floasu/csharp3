@@ -11,13 +11,10 @@ namespace TemaHotel.Model
     {
         public int Id { get; set; }
         public User CustomerUser { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public int NightNr { get; set; }
         public double Price { get; set; }
         public String Status { get; set; }
         public bool Active { get; set; }
-        public Collection<int> PriceByRoom { get; set; }
+
 
         public Reservation()
         {
@@ -25,20 +22,15 @@ namespace TemaHotel.Model
             Status = "WaitingPayment";
         }
 
-        public Reservation(User customerUser, DateTime start, DateTime end )
+        public Reservation(User customerUser)
         {
             Active = true;
             Status = "WaitingPayment";
-        this.CustomerUser = customerUser;
-        this.Start = start;
-        this.End = end;
-        NightNr = (End - Start).Days;
-     
-      
+            this.CustomerUser = customerUser;
         }
 
-        public virtual ICollection<Room> ReservedRooms { get; set; }
-        public virtual ICollection<ExtraServices> ExtraSvReservation { get; set; }
+        public virtual ICollection<ReservationRoomRow> ReservedRooms { get; set; }
         public virtual ICollection<Deal> DealOfReservation { get; set; }
+
     }
 }

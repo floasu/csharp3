@@ -66,6 +66,8 @@
     <Compile Include="DataAccess\FacilityServiceLayer.cs" />
     <Compile Include="DataAccess\OperationResult.cs" />
     <Compile Include="DataAccess\PicturesServiceLayer.cs" />
+    <Compile Include="DataAccess\ReservationRoomRowServiceLayer.cs" />
+    <Compile Include="DataAccess\ReservationServiceLayer.cs" />
     <Compile Include="DataAccess\RoomServiceLayer.cs" />
     <Compile Include="DataAccess\UserServiceLayer.cs" />
     <Compile Include="ManageFacilities.xaml.cs">
@@ -79,6 +81,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Picture.cs" />
+    <Compile Include="Model\ReservationRoomRow.cs" />
     <Compile Include="SignUp.xaml.cs">
       <DependentUpon>SignUp.xaml</DependentUpon>
     </Compile>

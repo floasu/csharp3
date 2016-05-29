@@ -53,20 +53,20 @@ namespace TemaHotel.ViewModel
                 OnPropertyChanged("Username");
             }
         }
-     
+
         public string Password
         {
 
-            get { return password;}
-            set 
+            get { return password; }
+            set
             {
                 password = value;
                 OnPropertyChanged("Password");
             }
 
         }
-    
-        public bool ShowLogin 
+
+        public bool ShowLogin
         {
             get { return showLogin; }
             set
@@ -92,7 +92,7 @@ namespace TemaHotel.ViewModel
             ShowReservations = true;
 
             RoomServiceLayer rmsv = new RoomServiceLayer();
-            rmsv.GetRooms().ForEach(FreeRooms.Add);
+            //rmsv.GetRooms().ForEach(FreeRooms.Add);
         }
 
         public User LoggedUser
@@ -104,7 +104,7 @@ namespace TemaHotel.ViewModel
                 OnPropertyChanged("LoggedUser");
             }
         }
-    
+
         public ICommand LoginCommand
         {
             get
@@ -122,14 +122,14 @@ namespace TemaHotel.ViewModel
         {
             get
             {
-                if(cancelLoginCommand == null)
+                if (cancelLoginCommand == null)
                 {
                     cancelLoginCommand = new RelayCommand(CancelLogin);
                 }
                 return cancelLoginCommand;
             }
         }
-      
+
         public ICommand ShowLoginCommand
         {
             get
@@ -154,16 +154,16 @@ namespace TemaHotel.ViewModel
                 return logoutCommand;
             }
 
-        } 
-     
+        }
+
         public ICommand ManageUsersCommand
         {
             get
             {
                 if (manageUsersCommand == null)
                 {
-                   UserUtils utRoom = new UserUtils();
-                    manageUsersCommand = new RelayCommand(utRoom.ManageUsers); 
+                    UserUtils utRoom = new UserUtils();
+                    manageUsersCommand = new RelayCommand(utRoom.ManageUsers);
                 }
                 return manageUsersCommand;
             }
@@ -201,7 +201,7 @@ namespace TemaHotel.ViewModel
         {
             get
             {
-                if(manageAccesoriesCommand == null)
+                if (manageAccesoriesCommand == null)
                 {
                     manageAccesoriesCommand = new RelayCommand(ShowAccesories);
                 }
@@ -241,7 +241,7 @@ namespace TemaHotel.ViewModel
 
         public void DisplayLoginGrd(object param)
         {
-            ShowLogin = true;      
+            ShowLogin = true;
         }
 
         public void Login(object param)
@@ -288,7 +288,7 @@ namespace TemaHotel.ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
- 
+
         private void ShowAccesories(object param)
         {
             ManageFacilities manWnd = new ManageFacilities();
@@ -305,9 +305,10 @@ namespace TemaHotel.ViewModel
 
 
         private Reservation currentReservation = new Reservation();
-        private ObservableCollection<Room> reservedRooms = new ObservableCollection<Room>();
+        private ObservableCollection<ReservationRoomRow> reservationItems = new ObservableCollection<ReservationRoomRow>();
         private ObservableCollection<Room> freeRooms = new ObservableCollection<Room>();
         private ObservableCollection<Facility> roomFacilities = new ObservableCollection<Facility>();
+        private ObservableCollection<Facility> specificFacilities = new ObservableCollection<Facility>();
         private ObservableCollection<String> imagesSource = new ObservableCollection<String>();
         private Room selectedRoom;
         private String currentSourceImage;
@@ -317,8 +318,69 @@ namespace TemaHotel.ViewModel
         private int roomNbr;
         private bool showViewState;
         private bool showEditState;
-      
-       
+        private DateTime resStart = DateTime.Now;
+        private DateTime resEnd = DateTime.Now;
+        private int selectedNumber;
+        private ObservableCollection<int> roomNrSource = new ObservableCollection<int>();
+
+        private ICommand searchFreeRoomsCommand;
+        private ICommand reserveCommand;
+
+        public int SelectedNumber
+        {
+            get { return selectedNumber; }
+            set
+            {
+                selectedNumber = value;
+                OnPropertyChanged("SelectedNumber");
+            }
+        }
+
+        public ICommand SearchFreeRoomsCommand
+        {
+            get
+            {
+                if (searchFreeRoomsCommand == null)
+                {
+                    searchFreeRoomsCommand = new RelayCommand(SearchFreeRooms);
+                }
+                return searchFreeRoomsCommand;
+            }
+        }
+
+        public ICommand ReserveCommand
+        {
+            get
+            {
+                if (reserveCommand == null)
+                {
+                    reserveCommand = new RelayCommand(Reserve);
+                }
+                return reserveCommand;
+            }
+        }
+
+        public ObservableCollection<ReservationRoomRow> ReservationItems
+        {
+            get { return reservationItems; }
+            set
+            {
+                reservationItems = value;
+                OnPropertyChanged("ReservationItems");
+            }
+        }
+
+        public ObservableCollection<int> RoomNrSource
+        {
+            get { return roomNrSource; }
+            set
+            {
+                roomNrSource = value;
+                OnPropertyChanged("RoomNrSource");
+            }
+
+        }
+
         public Reservation CurrentReservation
         {
             get { return currentReservation; }
@@ -329,6 +391,16 @@ namespace TemaHotel.ViewModel
             }
         }
 
+        public ObservableCollection<Facility> SpecificFacilities
+        {
+            get { return specificFacilities; }
+            set
+            {
+                specificFacilities = value;
+                OnPropertyChanged("SpecificFacilities");
+            }
+        }
+        
         public Room SelectedRoom
         {
             get { return selectedRoom; }
@@ -337,6 +409,8 @@ namespace TemaHotel.ViewModel
                 selectedRoom = value;
                 if (selectedRoom != null)
                 {
+                    setFreeNumberOfRooms();
+                    SpecificFacilities = selectedRoom.getRoomFacilities();
                     ImagesSource = selectedRoom.getRoomPictures();
                     if (ImagesSource != null && ImagesSource.Count > 0)
                     {
@@ -344,6 +418,26 @@ namespace TemaHotel.ViewModel
                     }
                 }
                 OnPropertyChanged("SelectedRoom");
+            }
+        }
+
+        public DateTime ResStart
+        {
+            get { return resStart; }
+            set
+            {
+                resStart = value;
+                OnPropertyChanged("ResStart");
+            }
+        }
+
+        public DateTime ResEnd
+        {
+            get { return resEnd; }
+            set
+            {
+                resEnd = value;
+                OnPropertyChanged("ResEnd");
             }
         }
 
@@ -396,8 +490,6 @@ namespace TemaHotel.ViewModel
             }
         }
 
-   
-
         public ObservableCollection<Room> FreeRooms
         {
             get { return freeRooms; }
@@ -408,16 +500,6 @@ namespace TemaHotel.ViewModel
             }
         }
 
-        public ObservableCollection<Room> ReservedRoom
-        {
-            get { return reservedRooms; }
-            set
-            {
-                reservedRooms = value;
-                OnPropertyChanged("ReservedRooms");
-            }
-        }
-        
         public ObservableCollection<Facility> RoomFacilities
         {
             get { return roomFacilities; }
@@ -468,11 +550,17 @@ namespace TemaHotel.ViewModel
             }
         }
 
+        public void Reserve(object param)
+        {
+            price = SelectedRoom.Price * selectedNumber ;
+            ReservationRoomRow resItm = new ReservationRoomRow(price,SelectedNumber, SelectedRoom, ResStart,ResEnd);
+            ReservationItems.Add(resItm);
+        }
 
         public void ClearDataControls(object param)
         {
             ClearAddStateData();
-        }    
+        }
 
         public void ClearAddStateData()
         {
@@ -483,11 +571,44 @@ namespace TemaHotel.ViewModel
             ImagesSource.Clear();
             CurrentImage = null;
         }
-    
-    
-    
-    
-    
-    
+
+        public void setFreeNumberOfRooms()
+        {
+            int max = 0;
+            Collection<int> sourceNumber = new Collection<int>();
+            ReservationRoomRowServiceLayer sv = new ReservationRoomRowServiceLayer();
+            List<ReservationRoomRow> list = sv.ReservedRoomByRoomDate(SelectedRoom.Id, ResStart, ResEnd);
+            foreach (ReservationRoomRow rs in list)
+            {
+                max += rs.ReservedRoomNumber;
+            }
+            for (int i = 1; i <= SelectedRoom.NbrRooms - max; i++)
+            {
+                sourceNumber.Add(i);
+            }
+            RoomNrSource = new ObservableCollection<int>(sourceNumber);
+        }
+
+        public void SearchFreeRooms(object param)
+        {
+            ReservationRoomRowServiceLayer sv = new ReservationRoomRowServiceLayer();
+            RoomServiceLayer svRoom = new RoomServiceLayer();
+            List<Room> rm = svRoom.GetRooms();
+            foreach (Room r in rm)
+            {
+                int max = 0;
+                List<ReservationRoomRow> list = sv.ReservedRoomByRoomDate(r.Id, ResStart, ResEnd);
+                foreach (ReservationRoomRow rs in list)
+                {
+                    max += rs.ReservedRoomNumber;
+                }
+                if (max < r.NbrRooms)
+                {
+                    FreeRooms.Add(r);
+                }
+            }
+
+        }
+
     }
 }
